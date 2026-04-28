@@ -587,52 +587,44 @@
   }
   
   /* ═══ SUBMIT ═══ */
+  import { createClient } from '@supabase/supabase-js'
+
+  const supabase = createClient(
+    process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY
+  )
+
   async function submitRSVP() {
-    var name  = document.getElementById('fname').value.trim();
-    var phone = document.getElementById('phone').value.trim();
-    var email = document.getElementById('email').value.trim();
-    var guests = document.getElementById('guests').value;
-    var events = document.getElementById('events').value;
-    var diet = document.getElementById('diet').value;
-    var message = document.getElementById('msg').value;
+    const name = document.getElementById('fname').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const guests = document.getElementById('guests').value;
+    const events = document.getElementById('events').value;
+    const diet = document.getElementById('diet').value;
+    const message = document.getElementById('msg').value;
 
     if (!name || !phone || !email || !guests || !events || !chosenSide) {
-      alert('Please fill in all required fields and choose your seating side.');
+      alert("Please fill in all required fields");
       return;
     }
 
-    try {
-      const res = await fetch('/api/rsvp', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name,
-          phone,
-          email,
-          guests,
-          events,
-          side: chosenSide,
-          diet,
-          message
-        })
-      });
+    const { error } = await supabase.from("rsvp").insert([{
+      name,
+      phone,
+      email,
+      guests,
+      events,
+      side: chosenSide,
+      diet,
+      message
+    }]);
 
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.error || 'Something went wrong');
+    if (error) {
+      alert("Error saving RSVP: " + error.message);
+      return;
     }
 
     document.getElementById('rsvp-form').classList.add('hidden');
-    var success = document.getElementById('rsvp-success');
-    success.classList.add('show');
-    success.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-    } catch (err) {
-      alert('Error: ' + err.message);
-    }
+    document.getElementById('rsvp-success').classList.add('show');
   }
  
   /* ═══ KEYBOARD ═══ */
@@ -656,7 +648,6 @@
     });
   });
 </script>
-<script src="rsvp.js"></script>
 </body>
 </html>
 
