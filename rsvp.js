@@ -1,52 +1,15 @@
-import { Pool } from "pg";
+import { createClient } from '@supabase/supabase-js'
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_ANON_KEY
+)
 
-export default async function handler(req, res) {
-  try {
-    if (req.method !== "POST") {
-      return res.status(405).json({ error: "Method not allowed" });
-    }
+async function submitRSVP(name, email) {
+  const { data, error } = await supabase
+    .from('rsvp')
+    .insert([{ name, email }])
 
-    const { name, phone, email, guests, events, side, diet, message } =
-      req.body;
-
-    if (!name || !phone || !email || !guests || !events || !side) {
-      return res.status(400).json({ error: "Missing required fields" });
-    }
-
-    const query = `
-      INSERT INTO rsvps 
-      (full_name, phone, email, guests, events, side, diet, message)
-      VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
-      RETURNING *;
-    `;
-
-    const values = [
-      name,
-      phone,
-      email,
-      guests,
-      events,
-      side,
-      diet || "",
-      message || "",
-    ];
-
-    const result = await pool.query(query, values);
-
-    return res.status(200).json({
-      success: true,
-      data: result.rows[0],
-    });
-  } catch (error) {
-    return res.status(500).json({
-      error: error.message,
-    });
-  }
+  if (error) console.log(error)
+  else console.log("Saved!", data)
 }

@@ -310,83 +310,86 @@
       <div class="rsvp-title">RSVP</div>
       <div class="rsvp-deadline">Kindly reply by 31 October 2025</div>
  
-      <div class="rsvp-form" id="rsvp-form">
-        <div class="form-grid">
-          <div class="form-field">
-            <label class="form-label" for="fname">Full Name</label>
-            <input class="form-input" id="fname" type="text" placeholder="Your full name" autocomplete="name">
-          </div>
-          <div class="form-field">
-            <label class="form-label" for="phone">Phone Number</label>
-            <input class="form-input" id="phone" type="tel" placeholder="+27 000 000 000" autocomplete="tel">
-          </div>
-        </div>
- 
-        <div class="form-field">
-          <label class="form-label" for="email">Email Address</label>
-          <input class="form-input" id="email" type="email" placeholder="your@email.com" autocomplete="email">
-        </div>
- 
-        <div class="form-field">
-          <label class="form-label" for="guests">Number of Guests</label>
-          <select class="form-input" id="guests">
-            <option value="">How many are coming?</option>
-            <option value="1">1 — Just me!</option>
-            <option value="2">2 — Me + my plus one</option>
-            <option value="3">3 — Three of us</option>
-            <option value="4">4 — Four guests</option>
-            <option value="5+">5+ — We roll deep!</option>
-          </select>
-        </div>
- 
-        <div class="form-field">
-          <label class="form-label" for="events">Which Celebrations Will You Attend?</label>
-          <select class="form-input" id="events">
-            <option value="">Select ceremonies</option>
-            <option value="both">Both — Umembeso (27 Nov) &amp; White Wedding (28 Nov)</option>
-            <option value="umembeso">Umembeso only — 27 November</option>
-            <option value="wedding">White Wedding only — 28 November</option>
-            <option value="none">Sadly can't make it — sending all my love!</option>
-          </select>
-        </div>
- 
-        <div class="form-field">
-          <label class="form-label">I'll Be Seated On The…</label>
-          <div class="side-grid">
-            <div class="side-card" id="bride-card" onclick="pickSide('bride')" role="button" tabindex="0" aria-pressed="false">
-              <div class="side-ring">
-                <svg viewBox="0 0 24 24" fill="none" stroke="rgba(168,201,176,0.7)" stroke-width="1.5">
-                  <circle cx="12" cy="7" r="4"/><path d="M6 21v-2a6 6 0 0112 0v2"/>
-                </svg>
-              </div>
-              <div class="side-name">Bride's Side</div>
-              <div class="side-sub">With Ayanda</div>
+      <form id="rsvpForm">
+        <div class="rsvp-form" id="rsvp-form">
+          <div class="form-grid">
+            <div class="form-field">
+              <label class="form-label" for="fname">Full Name</label>
+              <input class="form-input" id="fname" type="text" placeholder="Your full name" autocomplete="name">
             </div>
-            <div class="side-card" id="groom-card" onclick="pickSide('groom')" role="button" tabindex="0" aria-pressed="false">
-              <div class="side-ring">
-                <svg viewBox="0 0 24 24" fill="none" stroke="rgba(168,201,176,0.7)" stroke-width="1.5">
-                  <circle cx="12" cy="7" r="4"/><path d="M6 21v-2a6 6 0 0112 0v2"/>
-                </svg>
-              </div>
-              <div class="side-name">Groom's Side</div>
-              <div class="side-sub">With Ngoako</div>
+            <div class="form-field">
+              <label class="form-label" for="phone">Phone Number</label>
+              <input class="form-input" id="phone" type="tel" placeholder="+27 000 000 000" autocomplete="tel">
             </div>
           </div>
-          <input type="hidden" id="side-val" value="">
+  
+          <div class="form-field">
+            <label class="form-label" for="email">Email Address</label>
+            <input class="form-input" id="email" type="email" placeholder="your@email.com" autocomplete="email">
+          </div>
+  
+          <div class="form-field">
+            <label class="form-label" for="guests">Number of Guests</label>
+            <select class="form-input" id="guests">
+              <option value="">How many are coming?</option>
+              <option value="1">1 — Just me!</option>
+              <option value="2">2 — Me + my plus one</option>
+              <option value="3">3 — Three of us</option>
+              <option value="4">4 — Four guests</option>
+              <option value="5+">5+ — We roll deep!</option>
+            </select>
+          </div>
+  
+          <div class="form-field">
+            <label class="form-label" for="events">Which Celebrations Will You Attend?</label>
+            <select class="form-input" id="events">
+              <option value="">Select ceremonies</option>
+              <option value="both">Both — Umembeso (27 Nov) &amp; White Wedding (28 Nov)</option>
+              <option value="umembeso">Umembeso only — 27 November</option>
+              <option value="wedding">White Wedding only — 28 November</option>
+              <option value="none">Sadly can't make it — sending all my love!</option>
+            </select>
+          </div>
+          
+          <div  class="form-field">
+            <label class="form-label">I'll Be Seated On The…</label>
+            <div class="side-grid">
+              <div class="side-card" id="bride-card" onclick="pickSide('bride')" role="button" tabindex="0" aria-pressed="false">
+                <div class="side-ring">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="rgba(168,201,176,0.7)" stroke-width="1.5">
+                    <circle cx="12" cy="7" r="4"/><path d="M6 21v-2a6 6 0 0112 0v2"/>
+                  </svg>
+                </div>
+                <div class="side-name">Bride's Side</div>
+                <div class="side-sub">With Ayanda</div>
+              </div>
+              <div class="side-card" id="groom-card" onclick="pickSide('groom')" role="button" tabindex="0" aria-pressed="false">
+                <div class="side-ring">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="rgba(168,201,176,0.7)" stroke-width="1.5">
+                    <circle cx="12" cy="7" r="4"/><path d="M6 21v-2a6 6 0 0112 0v2"/>
+                  </svg>
+                </div>
+                <div class="side-name">Groom's Side</div>
+                <div class="side-sub">With Ngoako</div>
+              </div>
+            </div>
+            <input type="hidden" id="side-val" value="">
+          </div>
+  
+          <div class="form-field">
+            <label class="form-label" for="diet">Dietary Requirements (Optional)</label>
+            <input class="form-input" id="diet" type="text" placeholder="Vegetarian, Halal, allergies…">
+          </div>
+  
+          <div class="form-field">
+            <label class="form-label" for="msg">Message to the Couple (Optional)</label>
+            <textarea class="form-input" id="msg" rows="3" placeholder="Send your love &amp; wishes to Ayanda &amp; Ngoako…"></textarea>
+          </div>
+  
+          <button class="submit-btn" onclick="submitRSVP()" type="button">Confirm My Attendance</button>
         </div>
- 
-        <div class="form-field">
-          <label class="form-label" for="diet">Dietary Requirements (Optional)</label>
-          <input class="form-input" id="diet" type="text" placeholder="Vegetarian, Halal, allergies…">
-        </div>
- 
-        <div class="form-field">
-          <label class="form-label" for="msg">Message to the Couple (Optional)</label>
-          <textarea class="form-input" id="msg" rows="3" placeholder="Send your love &amp; wishes to Ayanda &amp; Ngoako…"></textarea>
-        </div>
- 
-        <button class="submit-btn" onclick="submitRSVP()" type="button">Confirm My Attendance</button>
-      </div>
+      </form>
+
  
       <!-- success -->
       <div class="rsvp-success" id="rsvp-success" role="status">
@@ -653,6 +656,7 @@
     });
   });
 </script>
+<script src="rsvp.js"></script>
 </body>
 </html>
 
