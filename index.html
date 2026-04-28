@@ -8,147 +8,120 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
- 
+
 <!-- sparkle canvas -->
 <canvas id="sparkle-canvas"></canvas>
- 
+
 <!-- ═══════════════ ENVELOPE SCENE ═══════════════ -->
 <div id="env-scene" role="dialog" aria-label="Wedding invitation envelope">
- 
-  <!--  corner foliage 
-  <svg class="corner-foliage tl" width="200" height="240" viewBox="0 0 200 240" fill="none">
-    <ellipse cx="28" cy="28" rx="22" ry="8" transform="rotate(-30 28 28)" fill="#4A7C59"/>
-    <ellipse cx="58" cy="18" rx="28" ry="9" transform="rotate(-14 58 18)" fill="#3D6347"/>
-    <ellipse cx="18" cy="58" rx="24" ry="8" transform="rotate(-50 18 58)" fill="#6DAB83"/>
-    <ellipse cx="78" cy="42" rx="32" ry="10" transform="rotate(-10 78 42)" fill="#4A7C59"/>
-    <ellipse cx="8" cy="88" rx="26" ry="9" transform="rotate(-70 8 88)" fill="#3D6347"/>
-    <ellipse cx="48" cy="78" rx="30" ry="9" transform="rotate(-34 48 78)" fill="#6DAB83"/>
-    <ellipse cx="98" cy="68" rx="34" ry="10" transform="rotate(-5 98 68)" fill="#4A7C59"/>
-    <ellipse cx="4" cy="118" rx="22" ry="7" transform="rotate(-80 4 118)" fill="#3D6347"/>
-    <ellipse cx="38" cy="108" rx="28" ry="9" transform="rotate(-54 38 108)" fill="#4A7C59"/>
-    <ellipse cx="78" cy="98" rx="32" ry="10" transform="rotate(-20 78 98)" fill="#6DAB83"/>
-    <ellipse cx="118" cy="88" rx="28" ry="8" transform="rotate(0 118 88)" fill="#3D6347"/>
-    <ellipse cx="8" cy="148" rx="20" ry="7" transform="rotate(-84 8 148)" fill="#6DAB83"/>
-    <ellipse cx="48" cy="138" rx="26" ry="8" transform="rotate(-58 48 138)" fill="#4A7C59"/>
-    <ellipse cx="88" cy="128" rx="30" ry="9" transform="rotate(-28 88 128)" fill="#3D6347"/>
-    <ellipse cx="128" cy="112" rx="34" ry="10" transform="rotate(-8 128 112)" fill="#6DAB83"/>
-    <ellipse cx="158" cy="96" rx="26" ry="8" transform="rotate(5 158 96)" fill="#4A7C59"/>
-    <circle cx="64" cy="38" r="6" fill="#A8C9B0" opacity="0.45"/>
-    <circle cx="104" cy="66" r="5" fill="#A8C9B0" opacity="0.38"/>
-    <circle cx="54" cy="98" r="4" fill="#D4E8DA" opacity="0.45"/>
-    <circle cx="138" cy="92" r="4" fill="#A8C9B0" opacity="0.38"/>
-    <circle cx="88" cy="56" r="3" fill="#6DAB83" opacity="0.55"/>
-  </svg>
-  <svg class="corner-foliage tr" width="200" height="240" viewBox="0 0 200 240" fill="none">
-    <ellipse cx="28" cy="28" rx="22" ry="8" transform="rotate(-30 28 28)" fill="#4A7C59"/>
-    <ellipse cx="58" cy="18" rx="28" ry="9" transform="rotate(-14 58 18)" fill="#3D6347"/>
-    <ellipse cx="18" cy="58" rx="24" ry="8" transform="rotate(-50 18 58)" fill="#6DAB83"/>
-    <ellipse cx="78" cy="42" rx="32" ry="10" transform="rotate(-10 78 42)" fill="#4A7C59"/>
-    <ellipse cx="8" cy="88" rx="26" ry="9" transform="rotate(-70 8 88)" fill="#3D6347"/>
-    <ellipse cx="48" cy="78" rx="30" ry="9" transform="rotate(-34 48 78)" fill="#6DAB83"/>
-    <ellipse cx="98" cy="68" rx="34" ry="10" transform="rotate(-5 98 68)" fill="#4A7C59"/>
-    <ellipse cx="38" cy="108" rx="28" ry="9" transform="rotate(-54 38 108)" fill="#4A7C59"/>
-    <ellipse cx="78" cy="98" rx="32" ry="10" transform="rotate(-20 78 98)" fill="#6DAB83"/>
-    <circle cx="64" cy="38" r="6" fill="#A8C9B0" opacity="0.45"/>
-  </svg>
-  <svg class="corner-foliage bl" width="200" height="240" viewBox="0 0 200 240" fill="none">
-    <ellipse cx="28" cy="28" rx="22" ry="8" transform="rotate(-30 28 28)" fill="#4A7C59"/>
-    <ellipse cx="58" cy="18" rx="28" ry="9" transform="rotate(-14 58 18)" fill="#3D6347"/>
-    <ellipse cx="18" cy="58" rx="24" ry="8" transform="rotate(-50 18 58)" fill="#6DAB83"/>
-    <ellipse cx="78" cy="42" rx="32" ry="10" transform="rotate(-10 78 42)" fill="#4A7C59"/>
-    <ellipse cx="8" cy="88" rx="26" ry="9" transform="rotate(-70 8 88)" fill="#3D6347"/>
-    <circle cx="64" cy="38" r="6" fill="#A8C9B0" opacity="0.45"/>
-  </svg>
-  <svg class="corner-foliage br" width="200" height="240" viewBox="0 0 200 240" fill="none">
-    <ellipse cx="28" cy="28" rx="22" ry="8" transform="rotate(-30 28 28)" fill="#4A7C59"/>
-    <ellipse cx="58" cy="18" rx="28" ry="9" transform="rotate(-14 58 18)" fill="#3D6347"/>
-    <ellipse cx="18" cy="58" rx="24" ry="8" transform="rotate(-50 18 58)" fill="#6DAB83"/>
-    <ellipse cx="78" cy="42" rx="32" ry="10" transform="rotate(-10 78 42)" fill="#4A7C59"/>
-    <circle cx="64" cy="38" r="6" fill="#A8C9B0" opacity="0.45"/>
-  </svg> -->
- 
+
   <div class="env-eyebrow">
     <div class="top-line">You've received a special delivery</div>
     <div class="sub-line">A wedding invitation awaits you…</div>
   </div>
- 
-  <!-- clickable envelope -->
+
+  <!-- clickable envelope — fully SVG-based, scales at any size -->
   <div class="env-wrap" id="env-wrap" tabindex="0" role="button" aria-label="Open the wedding invitation">
-    <div class="envelope" id="the-envelope">
-      <div class="env-lining"></div>
-      <div class="env-body">
-        <!-- parchment foliage overlay -->
-        <svg class="env-floral" viewBox="0 0 380 265" xmlns="http://www.w3.org/2000/svg">
-          <g fill="#fff" opacity="0.9">
-            <ellipse cx="10" cy="78" rx="19" ry="6" transform="rotate(-40 10 78)"/>
-            <ellipse cx="22" cy="62" rx="21" ry="7" transform="rotate(-24 22 62)"/>
-            <ellipse cx="7" cy="98" rx="17" ry="6" transform="rotate(-55 7 98)"/>
-            <ellipse cx="28" cy="110" rx="23" ry="7" transform="rotate(-18 28 110)"/>
-            <ellipse cx="14" cy="132" rx="19" ry="6" transform="rotate(-60 14 132)"/>
-            <ellipse cx="33" cy="148" rx="21" ry="7" transform="rotate(-13 33 148)"/>
-            <ellipse cx="370" cy="78" rx="19" ry="6" transform="rotate(40 370 78)"/>
-            <ellipse cx="358" cy="62" rx="21" ry="7" transform="rotate(24 358 62)"/>
-            <ellipse cx="373" cy="98" rx="17" ry="6" transform="rotate(55 373 98)"/>
-            <ellipse cx="352" cy="110" rx="23" ry="7" transform="rotate(18 352 110)"/>
-            <ellipse cx="366" cy="132" rx="19" ry="6" transform="rotate(60 366 132)"/>
-            <ellipse cx="347" cy="148" rx="21" ry="7" transform="rotate(13 347 148)"/>
-            <ellipse cx="80" cy="6" rx="17" ry="5" transform="rotate(-80 80 6)"/>
-            <ellipse cx="110" cy="4" rx="21" ry="6" transform="rotate(-85 110 4)"/>
-            <ellipse cx="140" cy="6" rx="19" ry="5" transform="rotate(-88 140 6)"/>
-            <ellipse cx="200" cy="6" rx="19" ry="5" transform="rotate(88 200 6)"/>
-            <ellipse cx="240" cy="4" rx="21" ry="6" transform="rotate(85 240 4)"/>
-            <ellipse cx="270" cy="6" rx="17" ry="5" transform="rotate(80 270 6)"/>
-          </g>
-          <g>
-            <circle cx="44" cy="88" r="5" fill="#D4E8DA" opacity="0.65"/>
-            <circle cx="336" cy="88" r="5" fill="#D4E8DA" opacity="0.65"/>
-            <circle cx="48" cy="138" r="4" fill="#A8C9B0" opacity="0.55"/>
-            <circle cx="332" cy="138" r="4" fill="#A8C9B0" opacity="0.55"/>
-          </g>
+    <div class="env-svg-wrap" id="the-envelope">
+
+      <!-- BASE: envelope body + inner folds drawn as SVG paths -->
+      <svg class="env-base-svg" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="envGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0b0b0b"/>
+            <stop offset="40%" stop-color="#2e2e2e"/>
+            <stop offset="100%" stop-color="#040404"/>
+          </linearGradient>
+          <linearGradient id="liningGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#4a4a4a"/>
+            <stop offset="100%" stop-color="#3a3a3a"/>
+          </linearGradient>
+        </defs>
+
+        <!-- envelope body -->
+        <rect x="0" y="0" width="400" height="280" rx="6" fill="url(#liningGrad)"/>
+        <rect x="0" y="0" width="400" height="280" rx="6" fill="url(#envGrad)"/>
+
+        <!-- left inner fold -->
+        <polygon points="0,0 0,280 200,140" fill="rgba(20,40,20,0.28)"/>
+        <!-- right inner fold -->
+        <polygon points="400,0 400,280 200,140" fill="rgba(0,0,0,0.14)"/>
+        <!-- bottom inner fold -->
+        <polygon points="0,280 400,280 200,140" fill="rgba(30,30,30,0.22)"/>
+
+        <!-- subtle decorative leaf sprigs, left side -->
+        <g fill="rgba(255,255,255,0.13)">
+          <ellipse cx="12" cy="90" rx="18" ry="5" transform="rotate(-42 12 90)"/>
+          <ellipse cx="26" cy="72" rx="20" ry="6" transform="rotate(-24 26 72)"/>
+          <ellipse cx="9"  cy="115" rx="15" ry="5" transform="rotate(-58 9 115)"/>
+          <ellipse cx="32" cy="130" rx="20" ry="6" transform="rotate(-16 32 130)"/>
+          <ellipse cx="16" cy="152" rx="17" ry="5" transform="rotate(-62 16 152)"/>
+        </g>
+        <!-- right side -->
+        <g fill="rgba(255,255,255,0.13)">
+          <ellipse cx="388" cy="90" rx="18" ry="5" transform="rotate(42 388 90)"/>
+          <ellipse cx="374" cy="72" rx="20" ry="6" transform="rotate(24 374 72)"/>
+          <ellipse cx="391" cy="115" rx="15" ry="5" transform="rotate(58 391 115)"/>
+          <ellipse cx="368" cy="130" rx="20" ry="6" transform="rotate(16 368 130)"/>
+          <ellipse cx="384" cy="152" rx="17" ry="5" transform="rotate(62 384 152)"/>
+        </g>
+        <!-- top sprigs -->
+        <g fill="rgba(255,255,255,0.10)">
+          <ellipse cx="90"  cy="7" rx="16" ry="5" transform="rotate(-82 90 7)"/>
+          <ellipse cx="130" cy="5" rx="20" ry="6" transform="rotate(-86 130 5)"/>
+          <ellipse cx="200" cy="5" rx="20" ry="6" transform="rotate(86 200 5)"/>
+          <ellipse cx="270" cy="5" rx="20" ry="6" transform="rotate(86 270 5)"/>
+          <ellipse cx="310" cy="7" rx="16" ry="5" transform="rotate(82 310 7)"/>
+        </g>
+      </svg>
+
+      <!-- FLAP: animates open on click -->
+      <div class="env-flap-wrap" id="env-flap">
+        <svg class="env-flap-svg" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMin meet">
+          <!-- front face of flap (visible before open) -->
+          <polygon points="0,0 400,0 200,155" fill="rgba(18,18,18,0.55)"/>
+          <!-- back face of flap (visible after flip — darker) -->
+          <polygon points="0,0 400,0 200,155" fill="rgba(8,8,8,0.82)" transform="scale(1,-1) translate(0,-0)"/>
         </svg>
-        <div class="env-fold-l"></div>
-        <div class="env-fold-r"></div>
-        <div class="env-fold-b"></div>
-        <div class="env-text"><span>You are invited</span></div>
       </div>
-      <!-- flap -->
-      <div class="env-flap" id="env-flap">
-        <div class="flap-front"></div>
-        <div class="flap-back"></div>
-      </div>
+
+      <!-- "You are invited" text -->
+      <div class="env-text"><span>You are invited</span></div>
+
       <!-- wax seal -->
       <div class="wax-seal" id="wax-seal">
         <div class="seal-disc">
           <span class="seal-text">A&amp;N</span>
         </div>
       </div>
+
     </div>
   </div>
- 
+
   <div class="tap-hint" id="tap-hint">
     <span class="label">Tap to open</span>
     <span class="arrow-down"></span>
   </div>
 </div>
- 
+
 <!-- ═══════════════ SCROLL CONTENT ═══════════════ -->
 <div id="scroll-content">
- 
+
   <!-- HERO -->
   <section class="hero" id="hero-section" aria-label="Hero">
     <div class="hero-bg"></div>
- 
+
     <div class="hero-card">
       <div class="hero-badge">Celebrating Love</div>
- 
+
       <div class="hero-names">
         Ayanda
         <span class="hero-amp">&amp;</span>
         Ngoako
       </div>
- 
+
       <p class="hero-tagline">Two celebrations. One love story.</p>
- 
+
       <div class="hero-dates">
         <div class="date-item">
           <div class="date-num">27</div>
@@ -160,7 +133,7 @@
           <div class="date-label">November · White Wedding</div>
         </div>
       </div>
- 
+
       <!-- countdown -->
       <div class="countdown" id="countdown" aria-label="Countdown to wedding">
         <div class="cd-box"><span class="cd-num" id="cd-days">—</span><span class="cd-label">Days</span></div>
@@ -168,13 +141,13 @@
         <div class="cd-box"><span class="cd-num" id="cd-mins">—</span><span class="cd-label">Mins</span></div>
         <div class="cd-box"><span class="cd-num" id="cd-secs">—</span><span class="cd-label">Secs</span></div>
       </div>
- 
+
       <div class="hero-ctas">
-        <button class="btn btn-primary" onclick="scrollTo({top:document.getElementById('rsvp').offsetTop-20,behavior:'smooth'})">RSVP Now</button>
-        <button class="btn btn-ghost" onclick="scrollTo({top:document.getElementById('celebrations').offsetTop-20,behavior:'smooth'})">View Details</button>
+        <button class="btn btn-primary" onclick="scrollToEl('rsvp')">RSVP Now</button>
+        <button class="btn btn-ghost" onclick="scrollToEl('celebrations')">View Details</button>
       </div>
     </div>
- 
+
     <div class="scroll-cue" aria-hidden="true">
       Scroll to explore
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -182,7 +155,7 @@
       </svg>
     </div>
   </section>
- 
+
   <!-- CELEBRATIONS OVERVIEW -->
   <div class="section" id="celebrations">
     <div style="text-align:center;margin-bottom:8px">
@@ -193,7 +166,7 @@
       </p>
     </div>
     <div class="ceremony-grid">
-      <div class="cc cc-trad" onclick="scrollTo({top:document.getElementById('umembeso').offsetTop-20,behavior:'smooth'})" role="button" tabindex="0" aria-label="View Umembeso details">
+      <div class="cc cc-trad" onclick="scrollToEl('umembeso')" role="button" tabindex="0" aria-label="View Umembeso details">
         <div class="cc-body">
           <div class="cc-badge">27 November</div>
           <div class="cc-name">Umembeso</div>
@@ -202,7 +175,7 @@
         </div>
         <div class="cc-footer">View details →</div>
       </div>
-      <div class="cc cc-wed" onclick="scrollTo({top:document.getElementById('wedding').offsetTop-20,behavior:'smooth'})" role="button" tabindex="0" aria-label="View White Wedding details">
+      <div class="cc cc-wed" onclick="scrollToEl('wedding')" role="button" tabindex="0" aria-label="View White Wedding details">
         <div class="cc-body">
           <div class="cc-badge">28 November</div>
           <div class="cc-name">White Wedding</div>
@@ -213,16 +186,16 @@
       </div>
     </div>
   </div>
- 
+
   <div class="ornament-divider"><div class="gem"></div></div>
- 
+
   <!-- UMEMBESO -->
   <div class="page-section" id="umembeso">
     <div class="page-inner">
       <span class="pill pill-sage">27 November · Howick, KZN</span>
       <h1 class="ceremony-title">Umembeso</h1>
       <p class="ceremony-desc">A beautiful Zulu tradition where families unite with gifts and blessings from the ancestors. Come ready for colour, song, dancing, and pure joy that fills your soul!</p>
- 
+
       <div class="detail-row">
         <div class="dblock">
           <div class="dblock-label">Date</div>
@@ -248,25 +221,25 @@
           </div>
         </div>
       </div>
- 
+
       <div class="quote-banner">No jeans. No suits. Come in your cultural best — make the ancestors proud! 🎉</div>
- 
+
       <div class="nav-row">
-        <button class="nav-btn nav-dark" onclick="scrollTo({top:document.getElementById('wedding').offsetTop-20,behavior:'smooth'})">The Wedding →</button>
-        <button class="nav-btn nav-terra" onclick="scrollTo({top:document.getElementById('rsvp').offsetTop-20,behavior:'smooth'})">RSVP Now</button>
+        <button class="nav-btn nav-dark" onclick="scrollToEl('wedding')">The Wedding →</button>
+        <button class="nav-btn nav-terra" onclick="scrollToEl('rsvp')">RSVP Now</button>
       </div>
     </div>
   </div>
- 
+
   <div class="ornament-divider" style="margin-top:8px"><div class="gem"></div></div>
- 
+
   <!-- WHITE WEDDING -->
   <div class="page-section" id="wedding">
     <div class="page-inner">
       <span class="pill pill-terra">28 November · Netherwoods Farm</span>
       <h1 class="ceremony-title">White Wedding</h1>
       <p class="ceremony-desc">The main event! Vows, tears, champagne, and dancing until our feet give out. Come elegant, come ready to celebrate the night away in pure style.</p>
- 
+
       <div class="detail-row">
         <div class="dblock">
           <div class="dblock-label">Date</div>
@@ -292,105 +265,102 @@
           </div>
         </div>
       </div>
- 
+
       <div class="quote-banner">Come for the love. Stay for the dancing. Leave with memories that last forever.</div>
- 
+
       <div class="nav-row">
-        <button class="nav-btn nav-sage" onclick="scrollTo({top:document.getElementById('umembeso').offsetTop-20,behavior:'smooth'})">← Umembeso</button>
-        <button class="nav-btn nav-terra" onclick="scrollTo({top:document.getElementById('rsvp').offsetTop-20,behavior:'smooth'})">RSVP Now</button>
+        <button class="nav-btn nav-sage" onclick="scrollToEl('umembeso')">← Umembeso</button>
+        <button class="nav-btn nav-terra" onclick="scrollToEl('rsvp')">RSVP Now</button>
       </div>
     </div>
   </div>
- 
+
   <div class="ornament-divider" style="margin-top:8px"><div class="gem"></div></div>
- 
+
   <!-- RSVP -->
   <section class="rsvp-section" id="rsvp" aria-label="RSVP">
     <div class="rsvp-card">
       <div class="rsvp-title">RSVP</div>
       <div class="rsvp-deadline">Kindly reply by 31 October 2025</div>
- 
-      <form id="rsvpForm">
-        <div class="rsvp-form" id="rsvp-form">
-          <div class="form-grid">
-            <div class="form-field">
-              <label class="form-label" for="fname">Full Name</label>
-              <input class="form-input" id="fname" type="text" placeholder="Your full name" autocomplete="name">
-            </div>
-            <div class="form-field">
-              <label class="form-label" for="phone">Phone Number</label>
-              <input class="form-input" id="phone" type="tel" placeholder="+27 000 000 000" autocomplete="tel">
-            </div>
-          </div>
-  
-          <div class="form-field">
-            <label class="form-label" for="email">Email Address</label>
-            <input class="form-input" id="email" type="email" placeholder="your@email.com" autocomplete="email">
-          </div>
-  
-          <div class="form-field">
-            <label class="form-label" for="guests">Number of Guests</label>
-            <select class="form-input" id="guests">
-              <option value="">How many are coming?</option>
-              <option value="1">1 — Just me!</option>
-              <option value="2">2 — Me + my plus one</option>
-              <option value="3">3 — Three of us</option>
-              <option value="4">4 — Four guests</option>
-              <option value="5+">5+ — We roll deep!</option>
-            </select>
-          </div>
-  
-          <div class="form-field">
-            <label class="form-label" for="events">Which Celebrations Will You Attend?</label>
-            <select class="form-input" id="events">
-              <option value="">Select ceremonies</option>
-              <option value="both">Both — Umembeso (27 Nov) &amp; White Wedding (28 Nov)</option>
-              <option value="umembeso">Umembeso only — 27 November</option>
-              <option value="wedding">White Wedding only — 28 November</option>
-              <option value="none">Sadly can't make it — sending all my love!</option>
-            </select>
-          </div>
-          
-          <div  class="form-field">
-            <label class="form-label">I'll Be Seated On The…</label>
-            <div class="side-grid">
-              <div class="side-card" id="bride-card" onclick="pickSide('bride')" role="button" tabindex="0" aria-pressed="false">
-                <div class="side-ring">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="rgba(168,201,176,0.7)" stroke-width="1.5">
-                    <circle cx="12" cy="7" r="4"/><path d="M6 21v-2a6 6 0 0112 0v2"/>
-                  </svg>
-                </div>
-                <div class="side-name">Bride's Side</div>
-                <div class="side-sub">With Ayanda</div>
-              </div>
-              <div class="side-card" id="groom-card" onclick="pickSide('groom')" role="button" tabindex="0" aria-pressed="false">
-                <div class="side-ring">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="rgba(168,201,176,0.7)" stroke-width="1.5">
-                    <circle cx="12" cy="7" r="4"/><path d="M6 21v-2a6 6 0 0112 0v2"/>
-                  </svg>
-                </div>
-                <div class="side-name">Groom's Side</div>
-                <div class="side-sub">With Ngoako</div>
-              </div>
-            </div>
-            <input type="hidden" id="side-val" value="">
-          </div>
-  
-          <div class="form-field">
-            <label class="form-label" for="diet">Dietary Requirements (Optional)</label>
-            <input class="form-input" id="diet" type="text" placeholder="Vegetarian, Halal, allergies…">
-          </div>
-  
-          <div class="form-field">
-            <label class="form-label" for="msg">Message to the Couple (Optional)</label>
-            <textarea class="form-input" id="msg" rows="3" placeholder="Send your love &amp; wishes to Ayanda &amp; Ngoako…"></textarea>
-          </div>
-  
-          <button class="submit-btn" onclick="submitRSVP()" type="button">Confirm My Attendance</button>
-        </div>
-      </form>
 
- 
+      <div id="rsvp-form">
+        <div class="form-grid">
+          <div class="form-field">
+            <label class="form-label" for="fname">Full Name</label>
+            <input class="form-input" id="fname" type="text" placeholder="Your full name" autocomplete="name">
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="phone">Phone Number</label>
+            <input class="form-input" id="phone" type="tel" placeholder="+27 000 000 000" autocomplete="tel">
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="email">Email Address</label>
+          <input class="form-input" id="email" type="email" placeholder="your@email.com" autocomplete="email">
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="guests">Number of Guests</label>
+          <select class="form-input" id="guests">
+            <option value="">How many are coming?</option>
+            <option value="1">1 — Just me!</option>
+            <option value="2">2 — Me + my plus one</option>
+            <option value="3">3 — Three of us</option>
+            <option value="4">4 — Four guests</option>
+            <option value="5+">5+ — We roll deep!</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="events">Which Celebrations Will You Attend?</label>
+          <select class="form-input" id="events">
+            <option value="">Select ceremonies</option>
+            <option value="both">Both — Umembeso (27 Nov) &amp; White Wedding (28 Nov)</option>
+            <option value="umembeso">Umembeso only — 27 November</option>
+            <option value="wedding">White Wedding only — 28 November</option>
+            <option value="none">Sadly can't make it — sending all my love!</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label">I'll Be Seated On The…</label>
+          <div class="side-grid">
+            <div class="side-card" id="bride-card" onclick="pickSide('bride')" role="button" tabindex="0" aria-pressed="false">
+              <div class="side-ring">
+                <svg viewBox="0 0 24 24" fill="none" stroke="rgba(19, 213, 68, 0.7)" stroke-width="1.5">
+                  <circle cx="12" cy="7" r="4"/><path d="M6 21v-2a6 6 0 0112 0v2"/>
+                </svg>
+              </div>
+              <div class="side-name">Bride's Side</div>
+              <div class="side-sub">With Ayanda</div>
+            </div>
+            <div class="side-card" id="groom-card" onclick="pickSide('groom')" role="button" tabindex="0" aria-pressed="false">
+              <div class="side-ring">
+                <svg viewBox="0 0 24 24" fill="none" stroke="rgba(168,201,176,0.7)" stroke-width="1.5">
+                  <circle cx="12" cy="7" r="4"/><path d="M6 21v-2a6 6 0 0112 0v2"/>
+                </svg>
+              </div>
+              <div class="side-name">Groom's Side</div>
+              <div class="side-sub">With Ngoako</div>
+            </div>
+          </div>
+          <input type="hidden" id="side-val" value="">
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="diet">Dietary Requirements (Optional)</label>
+          <input class="form-input" id="diet" type="text" placeholder="Vegetarian, Halal, allergies…">
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="msg">Message to the Couple (Optional)</label>
+          <textarea class="form-input" id="msg" rows="3" placeholder="Send your love &amp; wishes to Ayanda &amp; Ngoako…"></textarea>
+        </div>
+
+        <button class="submit-btn" id="submit-btn" onclick="submitRSVP()" type="button">Confirm My Attendance</button>
+      </div>
+
       <!-- success -->
       <div class="rsvp-success" id="rsvp-success" role="status">
         <span class="success-emoji">🎉</span>
@@ -400,160 +370,158 @@
       </div>
     </div>
   </section>
- 
+
   <!-- FOOTER -->
   <footer class="site-footer">
     <div class="footer-names">Ayanda &amp; Ngoako</div>
     <div class="footer-date">27 &amp; 28 November 2025 · KwaZulu-Natal, South Africa</div>
   </footer>
- 
+
 </div><!-- end scroll-content -->
- 
+
 <script>
   /* ═══ STATE ═══ */
   var opened = false;
   var chosenSide = '';
- 
+
+  /* ═══ HELPERS ═══ */
+  function scrollToEl(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var offset = el.getBoundingClientRect().top + window.pageYOffset - 20;
+    window.scrollTo({ top: offset, behavior: 'smooth' });
+  }
+
   /* ═══ ENVELOPE OPEN ═══ */
-  function openEnvelope(){
-    if(opened) return;
+  function openEnvelope() {
+    if (opened) return;
     opened = true;
- 
+
     var seal = document.getElementById('wax-seal');
     seal.style.opacity = '0';
     seal.style.transform = 'translate(-50%,-50%) scale(0.6)';
- 
+
     var hint = document.getElementById('tap-hint');
     hint.style.opacity = '0';
     hint.style.pointerEvents = 'none';
-  
-    /* open flap after 280ms */
-    setTimeout(function(){
+
+    setTimeout(function () {
       document.getElementById('env-flap').classList.add('open');
     }, 280);
-  
-    /* lift envelope */
-    setTimeout(function(){
+
+    setTimeout(function () {
       var env = document.getElementById('the-envelope');
       env.style.transition = 'transform 0.7s ease, filter 0.7s ease';
       env.style.transform = 'translateY(-22px) scale(1.06)';
       env.style.filter = 'drop-shadow(0 50px 90px rgba(0,0,0,0.7))';
     }, 700);
- 
-    /* sparkles */
+
     setTimeout(startSparkles, 900);
-  
-    /* reveal content */
-    setTimeout(function(){
+
+    setTimeout(function () {
       document.getElementById('env-scene').classList.add('gone');
       var sc = document.getElementById('scroll-content');
       sc.classList.add('revealed');
       document.body.style.background = '#FDFAF6';
-      window.scrollTo(0,0);
+      window.scrollTo(0, 0);
     }, 1500);
   }
- 
+
   /* ═══ SPARKLES ═══ */
-  function startSparkles(){
+  function startSparkles() {
     var canvas = document.getElementById('sparkle-canvas');
     canvas.classList.add('active');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     var ctx = canvas.getContext('2d');
     var particles = [];
-  
     var colors = ['#E8B84B','#C9952A','#A8C9B0','#FFD4C2','#FDFAF6','#6DAB83'];
-  
-    for(var i=0;i<80;i++){
+
+    for (var i = 0; i < 80; i++) {
       particles.push({
-        x: Math.random()*canvas.width,
-        y: canvas.height * 0.55 + (Math.random()-0.5)*200,
-        vx: (Math.random()-0.5)*5,
-        vy: -(Math.random()*5+2),
-        size: Math.random()*5+2,
-        color: colors[Math.floor(Math.random()*colors.length)],
+        x: Math.random() * canvas.width,
+        y: canvas.height * 0.55 + (Math.random() - 0.5) * 200,
+        vx: (Math.random() - 0.5) * 5,
+        vy: -(Math.random() * 5 + 2),
+        size: Math.random() * 5 + 2,
+        color: colors[Math.floor(Math.random() * colors.length)],
         alpha: 1,
-        spin: (Math.random()-0.5)*0.3,
-        angle: Math.random()*Math.PI*2,
-        shape: Math.random()>0.5?'circle':'star'
+        spin: (Math.random() - 0.5) * 0.3,
+        angle: Math.random() * Math.PI * 2,
+        shape: Math.random() > 0.5 ? 'circle' : 'star'
       });
     }
- 
+
     var frame = 0;
-    function draw(){
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      particles.forEach(function(p){
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(function (p) {
         p.x += p.vx;
         p.y += p.vy;
         p.vy += 0.08;
         p.vx *= 0.99;
         p.alpha -= 0.012;
         p.angle += p.spin;
-        if(p.alpha<=0) return;
+        if (p.alpha <= 0) return;
         ctx.globalAlpha = p.alpha;
         ctx.fillStyle = p.color;
-        ctx.strokeStyle = p.color;
         ctx.save();
         ctx.translate(p.x, p.y);
         ctx.rotate(p.angle);
-        if(p.shape==='star'){
-          drawStar(ctx, 0, 0, 3, p.size, p.size*0.4);
+        if (p.shape === 'star') {
+          drawStar(ctx, 0, 0, 3, p.size, p.size * 0.4);
         } else {
           ctx.beginPath();
-          ctx.arc(0,0,p.size,0,Math.PI*2);
+          ctx.arc(0, 0, p.size, 0, Math.PI * 2);
           ctx.fill();
         }
         ctx.restore();
       });
       ctx.globalAlpha = 1;
       frame++;
-      if(frame < 120) requestAnimationFrame(draw);
+      if (frame < 120) requestAnimationFrame(draw);
       else {
         canvas.classList.remove('active');
-        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
     }
     draw();
   }
- 
-  function drawStar(ctx, x, y, spikes, outerR, innerR){
-    var step = Math.PI/spikes;
+
+  function drawStar(ctx, x, y, spikes, outerR, innerR) {
+    var step = Math.PI / spikes;
     ctx.beginPath();
-    for(var i=0;i<2*spikes;i++){
-      var r = i%2===0 ? outerR : innerR;
-      var a = i*step - Math.PI/2;
-      var px = x + Math.cos(a)*r;
-      var py = y + Math.sin(a)*r;
-      i===0 ? ctx.moveTo(px,py) : ctx.lineTo(px,py);
+    for (var i = 0; i < 2 * spikes; i++) {
+      var r = i % 2 === 0 ? outerR : innerR;
+      var a = i * step - Math.PI / 2;
+      ctx.lineTo(x + Math.cos(a) * r, y + Math.sin(a) * r);
     }
     ctx.closePath();
     ctx.fill();
   }
- 
+
   /* ═══ COUNTDOWN ═══ */
-
-  // Get current date
-  var now = new Date();
-
-  // Set target date: 27 November (this year)
-  var targetYear = now.getFullYear();
-  var weddingDate = new Date(targetYear, 10, 28, 11, 0, 0); 
-  // Month is 0-based → 10 = November
-
-  // If date already passed this year → use next year
-  if (now > weddingDate) {
-    weddingDate = new Date(targetYear + 1, 10, 28, 11, 0, 0);
+  // Target: 28 November of the nearest upcoming year
+  function getWeddingDate() {
+    var now = new Date();
+    var year = now.getFullYear();
+    var target = new Date(year, 10, 28, 11, 0, 0); // November = month 10 (0-indexed)
+    if (now >= target) {
+      target = new Date(year + 1, 10, 28, 11, 0, 0);
+    }
+    return target;
   }
+
+  var weddingDate = getWeddingDate();
 
   function updateCountdown() {
     var now = new Date();
     var diff = weddingDate - now;
 
     if (diff <= 0) {
-      document.getElementById('cd-days').textContent = '0';
-      document.getElementById('cd-hours').textContent = '0';
-      document.getElementById('cd-mins').textContent = '0';
-      document.getElementById('cd-secs').textContent = '0';
+      ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(function(id) {
+        document.getElementById(id).textContent = '0';
+      });
       return;
     }
 
@@ -568,86 +536,40 @@
     document.getElementById('cd-secs').textContent = s < 10 ? '0' + s : s;
   }
 
-  // Run immediately
   updateCountdown();
-
-  // Update every second
   setInterval(updateCountdown, 1000);
- 
+
   /* ═══ SIDE PICK ═══ */
-  function pickSide(s){
+  function pickSide(s) {
     chosenSide = s;
     document.getElementById('side-val').value = s;
     var bc = document.getElementById('bride-card');
     var gc = document.getElementById('groom-card');
-    bc.classList.toggle('chosen', s==='bride');
-    gc.classList.toggle('chosen', s==='groom');
-    bc.setAttribute('aria-pressed', s==='bride');
-    gc.setAttribute('aria-pressed', s==='groom');
+    bc.classList.toggle('chosen', s === 'bride');
+    gc.classList.toggle('chosen', s === 'groom');
+    bc.setAttribute('aria-pressed', s === 'bride');
+    gc.setAttribute('aria-pressed', s === 'groom');
   }
-  
-  /* ═══ SUBMIT ═══ */
-  import { createClient } from '@supabase/supabase-js'
 
-  const supabase = createClient(
-    "https://ufbfuslnzniujhwmnrbm.supabase.co", "sb_publishable_4biQ90_Ml6AFItiub4y0Zg_bQo0DFDD"
-  )
-
-  async function submitRSVP() {
-    const name = document.getElementById('fname').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const guests = document.getElementById('guests').value;
-    const events = document.getElementById('events').value;
-    const diet = document.getElementById('diet').value;
-    const message = document.getElementById('msg').value;
-
-    if (!name || !phone || !email || !guests || !events || !chosenSide) {
-      alert("Please fill in all required fields");
-      return;
-    }
-
-    const { error } = await supabase.from("rsvp").insert([{
-      name,
-      phone,
-      email,
-      guests,
-      events,
-      side: chosenSide,
-      diet,
-      message
-    }]);
-
-    if (error) {
-      alert("Error saving RSVP: " + error.message);
-      return;
-    }
-
-    document.getElementById('rsvp-form').classList.add('hidden');
-    document.getElementById('rsvp-success').classList.add('show');
-  }
- 
-  /* ═══ KEYBOARD ═══ */
+  /* ═══ KEYBOARD NAVIGATION ═══ */
   var envWrap = document.getElementById('env-wrap');
-  envWrap.addEventListener('keydown', function(e){
-    if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openEnvelope(); }
+  envWrap.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openEnvelope(); }
   });
   envWrap.addEventListener('click', openEnvelope);
-  
-  /* keyboard for ceremony cards */
-  document.querySelectorAll('.cc').forEach(function(el){
-    el.addEventListener('keydown', function(e){
-      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); el.click(); }
+
+  document.querySelectorAll('.cc').forEach(function (el) {
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
     });
   });
- 
-  /* keyboard for side cards */
-  document.querySelectorAll('.side-card').forEach(function(el){
-    el.addEventListener('keydown', function(e){
-      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); el.click(); }
+
+  document.querySelectorAll('.side-card').forEach(function (el) {
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
     });
   });
 </script>
+<script src="rsvp.js"></script>
 </body>
 </html>
-
