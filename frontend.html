@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ayanda &amp; Ngoako — Wedding Invitation</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+ 
+<!-- sparkle canvas -->
+<canvas id="sparkle-canvas"></canvas>
+ 
+<!-- ═══════════════ ENVELOPE SCENE ═══════════════ -->
+<div id="env-scene" role="dialog" aria-label="Wedding invitation envelope">
+ 
+  <!--  corner foliage 
+  <svg class="corner-foliage tl" width="200" height="240" viewBox="0 0 200 240" fill="none">
+    <ellipse cx="28" cy="28" rx="22" ry="8" transform="rotate(-30 28 28)" fill="#4A7C59"/>
+    <ellipse cx="58" cy="18" rx="28" ry="9" transform="rotate(-14 58 18)" fill="#3D6347"/>
+    <ellipse cx="18" cy="58" rx="24" ry="8" transform="rotate(-50 18 58)" fill="#6DAB83"/>
+    <ellipse cx="78" cy="42" rx="32" ry="10" transform="rotate(-10 78 42)" fill="#4A7C59"/>
+    <ellipse cx="8" cy="88" rx="26" ry="9" transform="rotate(-70 8 88)" fill="#3D6347"/>
+    <ellipse cx="48" cy="78" rx="30" ry="9" transform="rotate(-34 48 78)" fill="#6DAB83"/>
+    <ellipse cx="98" cy="68" rx="34" ry="10" transform="rotate(-5 98 68)" fill="#4A7C59"/>
+    <ellipse cx="4" cy="118" rx="22" ry="7" transform="rotate(-80 4 118)" fill="#3D6347"/>
+    <ellipse cx="38" cy="108" rx="28" ry="9" transform="rotate(-54 38 108)" fill="#4A7C59"/>
+    <ellipse cx="78" cy="98" rx="32" ry="10" transform="rotate(-20 78 98)" fill="#6DAB83"/>
+    <ellipse cx="118" cy="88" rx="28" ry="8" transform="rotate(0 118 88)" fill="#3D6347"/>
+    <ellipse cx="8" cy="148" rx="20" ry="7" transform="rotate(-84 8 148)" fill="#6DAB83"/>
+    <ellipse cx="48" cy="138" rx="26" ry="8" transform="rotate(-58 48 138)" fill="#4A7C59"/>
+    <ellipse cx="88" cy="128" rx="30" ry="9" transform="rotate(-28 88 128)" fill="#3D6347"/>
+    <ellipse cx="128" cy="112" rx="34" ry="10" transform="rotate(-8 128 112)" fill="#6DAB83"/>
+    <ellipse cx="158" cy="96" rx="26" ry="8" transform="rotate(5 158 96)" fill="#4A7C59"/>
+    <circle cx="64" cy="38" r="6" fill="#A8C9B0" opacity="0.45"/>
+    <circle cx="104" cy="66" r="5" fill="#A8C9B0" opacity="0.38"/>
+    <circle cx="54" cy="98" r="4" fill="#D4E8DA" opacity="0.45"/>
+    <circle cx="138" cy="92" r="4" fill="#A8C9B0" opacity="0.38"/>
+    <circle cx="88" cy="56" r="3" fill="#6DAB83" opacity="0.55"/>
+  </svg>
+  <svg class="corner-foliage tr" width="200" height="240" viewBox="0 0 200 240" fill="none">
+    <ellipse cx="28" cy="28" rx="22" ry="8" transform="rotate(-30 28 28)" fill="#4A7C59"/>
+    <ellipse cx="58" cy="18" rx="28" ry="9" transform="rotate(-14 58 18)" fill="#3D6347"/>
+    <ellipse cx="18" cy="58" rx="24" ry="8" transform="rotate(-50 18 58)" fill="#6DAB83"/>
+    <ellipse cx="78" cy="42" rx="32" ry="10" transform="rotate(-10 78 42)" fill="#4A7C59"/>
+    <ellipse cx="8" cy="88" rx="26" ry="9" transform="rotate(-70 8 88)" fill="#3D6347"/>
+    <ellipse cx="48" cy="78" rx="30" ry="9" transform="rotate(-34 48 78)" fill="#6DAB83"/>
+    <ellipse cx="98" cy="68" rx="34" ry="10" transform="rotate(-5 98 68)" fill="#4A7C59"/>
+    <ellipse cx="38" cy="108" rx="28" ry="9" transform="rotate(-54 38 108)" fill="#4A7C59"/>
+    <ellipse cx="78" cy="98" rx="32" ry="10" transform="rotate(-20 78 98)" fill="#6DAB83"/>
+    <circle cx="64" cy="38" r="6" fill="#A8C9B0" opacity="0.45"/>
+  </svg>
+  <svg class="corner-foliage bl" width="200" height="240" viewBox="0 0 200 240" fill="none">
+    <ellipse cx="28" cy="28" rx="22" ry="8" transform="rotate(-30 28 28)" fill="#4A7C59"/>
+    <ellipse cx="58" cy="18" rx="28" ry="9" transform="rotate(-14 58 18)" fill="#3D6347"/>
+    <ellipse cx="18" cy="58" rx="24" ry="8" transform="rotate(-50 18 58)" fill="#6DAB83"/>
+    <ellipse cx="78" cy="42" rx="32" ry="10" transform="rotate(-10 78 42)" fill="#4A7C59"/>
+    <ellipse cx="8" cy="88" rx="26" ry="9" transform="rotate(-70 8 88)" fill="#3D6347"/>
+    <circle cx="64" cy="38" r="6" fill="#A8C9B0" opacity="0.45"/>
+  </svg>
+  <svg class="corner-foliage br" width="200" height="240" viewBox="0 0 200 240" fill="none">
+    <ellipse cx="28" cy="28" rx="22" ry="8" transform="rotate(-30 28 28)" fill="#4A7C59"/>
+    <ellipse cx="58" cy="18" rx="28" ry="9" transform="rotate(-14 58 18)" fill="#3D6347"/>
+    <ellipse cx="18" cy="58" rx="24" ry="8" transform="rotate(-50 18 58)" fill="#6DAB83"/>
+    <ellipse cx="78" cy="42" rx="32" ry="10" transform="rotate(-10 78 42)" fill="#4A7C59"/>
+    <circle cx="64" cy="38" r="6" fill="#A8C9B0" opacity="0.45"/>
+  </svg> -->
+ 
+  <div class="env-eyebrow">
+    <div class="top-line">You've received a special delivery</div>
+    <div class="sub-line">A wedding invitation awaits you…</div>
+  </div>
+ 
+  <!-- clickable envelope -->
+  <div class="env-wrap" id="env-wrap" tabindex="0" role="button" aria-label="Open the wedding invitation">
+    <div class="envelope" id="the-envelope">
+      <div class="env-lining"></div>
+      <div class="env-body">
+        <!-- parchment foliage overlay -->
+        <svg class="env-floral" viewBox="0 0 380 265" xmlns="http://www.w3.org/2000/svg">
+          <g fill="#fff" opacity="0.9">
+            <ellipse cx="10" cy="78" rx="19" ry="6" transform="rotate(-40 10 78)"/>
+            <ellipse cx="22" cy="62" rx="21" ry="7" transform="rotate(-24 22 62)"/>
+            <ellipse cx="7" cy="98" rx="17" ry="6" transform="rotate(-55 7 98)"/>
+            <ellipse cx="28" cy="110" rx="23" ry="7" transform="rotate(-18 28 110)"/>
+            <ellipse cx="14" cy="132" rx="19" ry="6" transform="rotate(-60 14 132)"/>
+            <ellipse cx="33" cy="148" rx="21" ry="7" transform="rotate(-13 33 148)"/>
+            <ellipse cx="370" cy="78" rx="19" ry="6" transform="rotate(40 370 78)"/>
+            <ellipse cx="358" cy="62" rx="21" ry="7" transform="rotate(24 358 62)"/>
+            <ellipse cx="373" cy="98" rx="17" ry="6" transform="rotate(55 373 98)"/>
+            <ellipse cx="352" cy="110" rx="23" ry="7" transform="rotate(18 352 110)"/>
+            <ellipse cx="366" cy="132" rx="19" ry="6" transform="rotate(60 366 132)"/>
+            <ellipse cx="347" cy="148" rx="21" ry="7" transform="rotate(13 347 148)"/>
+            <ellipse cx="80" cy="6" rx="17" ry="5" transform="rotate(-80 80 6)"/>
+            <ellipse cx="110" cy="4" rx="21" ry="6" transform="rotate(-85 110 4)"/>
+            <ellipse cx="140" cy="6" rx="19" ry="5" transform="rotate(-88 140 6)"/>
+            <ellipse cx="200" cy="6" rx="19" ry="5" transform="rotate(88 200 6)"/>
+            <ellipse cx="240" cy="4" rx="21" ry="6" transform="rotate(85 240 4)"/>
+            <ellipse cx="270" cy="6" rx="17" ry="5" transform="rotate(80 270 6)"/>
+          </g>
+          <g>
+            <circle cx="44" cy="88" r="5" fill="#D4E8DA" opacity="0.65"/>
+            <circle cx="336" cy="88" r="5" fill="#D4E8DA" opacity="0.65"/>
+            <circle cx="48" cy="138" r="4" fill="#A8C9B0" opacity="0.55"/>
+            <circle cx="332" cy="138" r="4" fill="#A8C9B0" opacity="0.55"/>
+          </g>
+        </svg>
+        <div class="env-fold-l"></div>
+        <div class="env-fold-r"></div>
+        <div class="env-fold-b"></div>
+        <div class="env-text"><span>You are invited</span></div>
+      </div>
+      <!-- flap -->
+      <div class="env-flap" id="env-flap">
+        <div class="flap-front"></div>
+        <div class="flap-back"></div>
+      </div>
+      <!-- wax seal -->
+      <div class="wax-seal" id="wax-seal">
+        <div class="seal-disc">
+          <span class="seal-text">A&amp;N</span>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="tap-hint" id="tap-hint">
+    <span class="label">Tap to open</span>
+    <span class="arrow-down"></span>
+  </div>
+</div>
+ 
+<!-- ═══════════════ SCROLL CONTENT ═══════════════ -->
+<div id="scroll-content">
+ 
+  <!-- HERO -->
+  <section class="hero" id="hero-section" aria-label="Hero">
+    <div class="hero-bg"></div>
+ 
+    <div class="hero-card">
+      <div class="hero-badge">Celebrating Love</div>
+ 
+      <div class="hero-names">
+        Ayanda
+        <span class="hero-amp">&amp;</span>
+        Ngoako
+      </div>
+ 
+      <p class="hero-tagline">Two celebrations. One love story.</p>
+ 
+      <div class="hero-dates">
+        <div class="date-item">
+          <div class="date-num">27</div>
+          <div class="date-label">November · Umembeso</div>
+        </div>
+        <div class="date-sep"></div>
+        <div class="date-item">
+          <div class="date-num">28</div>
+          <div class="date-label">November · White Wedding</div>
+        </div>
+      </div>
+ 
+      <!-- countdown -->
+      <div class="countdown" id="countdown" aria-label="Countdown to wedding">
+        <div class="cd-box"><span class="cd-num" id="cd-days">—</span><span class="cd-label">Days</span></div>
+        <div class="cd-box"><span class="cd-num" id="cd-hours">—</span><span class="cd-label">Hours</span></div>
+        <div class="cd-box"><span class="cd-num" id="cd-mins">—</span><span class="cd-label">Mins</span></div>
+        <div class="cd-box"><span class="cd-num" id="cd-secs">—</span><span class="cd-label">Secs</span></div>
+      </div>
+ 
+      <div class="hero-ctas">
+        <button class="btn btn-primary" onclick="scrollTo({top:document.getElementById('rsvp').offsetTop-20,behavior:'smooth'})">RSVP Now</button>
+        <button class="btn btn-ghost" onclick="scrollTo({top:document.getElementById('celebrations').offsetTop-20,behavior:'smooth'})">View Details</button>
+      </div>
+    </div>
+ 
+    <div class="scroll-cue" aria-hidden="true">
+      Scroll to explore
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14M5 12l7 7 7-7"/>
+      </svg>
+    </div>
+  </section>
+ 
+  <!-- CELEBRATIONS OVERVIEW -->
+  <div class="section" id="celebrations">
+    <div style="text-align:center;margin-bottom:8px">
+      <div class="section-overline">The Celebrations</div>
+      <h2 class="section-heading">Join us for <em>two beautiful days</em></h2>
+      <p class="section-body">
+        We're so excited to celebrate with you across two very special ceremonies — one rooted in our rich culture, the other in timeless elegance. Come for one or both — either way, we cannot wait to see you!
+      </p>
+    </div>
+    <div class="ceremony-grid">
+      <div class="cc cc-trad" onclick="scrollTo({top:document.getElementById('umembeso').offsetTop-20,behavior:'smooth'})" role="button" tabindex="0" aria-label="View Umembeso details">
+        <div class="cc-body">
+          <div class="cc-badge">27 November</div>
+          <div class="cc-name">Umembeso</div>
+          <div class="cc-sub">Traditional Ceremony · Howick, KZN</div>
+          <div class="cc-ghost-num">27</div>
+        </div>
+        <div class="cc-footer">View details →</div>
+      </div>
+      <div class="cc cc-wed" onclick="scrollTo({top:document.getElementById('wedding').offsetTop-20,behavior:'smooth'})" role="button" tabindex="0" aria-label="View White Wedding details">
+        <div class="cc-body">
+          <div class="cc-badge">28 November</div>
+          <div class="cc-name">White Wedding</div>
+          <div class="cc-sub">Ceremony &amp; Reception · Netherwoods Farm</div>
+          <div class="cc-ghost-num">28</div>
+        </div>
+        <div class="cc-footer">View details →</div>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="ornament-divider"><div class="gem"></div></div>
+ 
+  <!-- UMEMBESO -->
+  <div class="page-section" id="umembeso">
+    <div class="page-inner">
+      <span class="pill pill-sage">27 November · Howick, KZN</span>
+      <h1 class="ceremony-title">Umembeso</h1>
+      <p class="ceremony-desc">A beautiful Zulu tradition where families unite with gifts and blessings from the ancestors. Come ready for colour, song, dancing, and pure joy that fills your soul!</p>
+ 
+      <div class="detail-row">
+        <div class="dblock">
+          <div class="dblock-label">Date</div>
+          <div class="dblock-val">Friday</div>
+          <div class="dblock-sub">27 November 2025</div>
+        </div>
+        <div class="dblock">
+          <div class="dblock-label">Location</div>
+          <div class="dblock-val">Howick</div>
+          <div class="dblock-sub">KwaZulu-Natal, South Africa</div>
+        </div>
+      </div>
+      <div class="detail-row">
+        <div class="dblock full">
+          <div class="dblock-label">Dress Code — Strictly Traditional Attire</div>
+          <div class="dblock-val">Honour Our Heritage</div>
+          <div class="dblock-sub">Show up in full colour and celebrate our beautiful culture</div>
+          <div class="chips">
+            <span class="chip chip-green">Isishweshwe</span>
+            <span class="chip chip-green">African Print</span>
+            <span class="chip chip-green">Zulu Regalia</span>
+            <span class="chip chip-green">Cultural Dress</span>
+          </div>
+        </div>
+      </div>
+ 
+      <div class="quote-banner">No jeans. No suits. Come in your cultural best — make the ancestors proud! 🎉</div>
+ 
+      <div class="nav-row">
+        <button class="nav-btn nav-dark" onclick="scrollTo({top:document.getElementById('wedding').offsetTop-20,behavior:'smooth'})">The Wedding →</button>
+        <button class="nav-btn nav-terra" onclick="scrollTo({top:document.getElementById('rsvp').offsetTop-20,behavior:'smooth'})">RSVP Now</button>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="ornament-divider" style="margin-top:8px"><div class="gem"></div></div>
+ 
+  <!-- WHITE WEDDING -->
+  <div class="page-section" id="wedding">
+    <div class="page-inner">
+      <span class="pill pill-terra">28 November · Netherwoods Farm</span>
+      <h1 class="ceremony-title">White Wedding</h1>
+      <p class="ceremony-desc">The main event! Vows, tears, champagne, and dancing until our feet give out. Come elegant, come ready to celebrate the night away in pure style.</p>
+ 
+      <div class="detail-row">
+        <div class="dblock">
+          <div class="dblock-label">Date</div>
+          <div class="dblock-val">Saturday</div>
+          <div class="dblock-sub">28 November 2025</div>
+        </div>
+        <div class="dblock">
+          <div class="dblock-label">Venue</div>
+          <div class="dblock-val">Netherwoods Farm</div>
+          <div class="dblock-sub">KwaZulu-Natal, South Africa</div>
+        </div>
+      </div>
+      <div class="detail-row">
+        <div class="dblock full">
+          <div class="dblock-label">Dress Code — Black Tie</div>
+          <div class="dblock-val">Look Like a Million Rands</div>
+          <div class="dblock-sub">Think elegance, glamour, and your absolute best self</div>
+          <div class="chips">
+            <span class="chip">Tuxedos</span>
+            <span class="chip">Evening Gowns</span>
+            <span class="chip">Formal Suits</span>
+            <span class="chip">Black Tie Optional</span>
+          </div>
+        </div>
+      </div>
+ 
+      <div class="quote-banner">Come for the love. Stay for the dancing. Leave with memories that last forever.</div>
+ 
+      <div class="nav-row">
+        <button class="nav-btn nav-sage" onclick="scrollTo({top:document.getElementById('umembeso').offsetTop-20,behavior:'smooth'})">← Umembeso</button>
+        <button class="nav-btn nav-terra" onclick="scrollTo({top:document.getElementById('rsvp').offsetTop-20,behavior:'smooth'})">RSVP Now</button>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="ornament-divider" style="margin-top:8px"><div class="gem"></div></div>
+ 
+  <!-- RSVP -->
+  <section class="rsvp-section" id="rsvp" aria-label="RSVP">
+    <div class="rsvp-card">
+      <div class="rsvp-title">RSVP</div>
+      <div class="rsvp-deadline">Kindly reply by 31 October 2025</div>
+ 
+      <div class="rsvp-form" id="rsvp-form">
+        <div class="form-grid">
+          <div class="form-field">
+            <label class="form-label" for="fname">Full Name</label>
+            <input class="form-input" id="fname" type="text" placeholder="Your full name" autocomplete="name">
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="phone">Phone Number</label>
+            <input class="form-input" id="phone" type="tel" placeholder="+27 000 000 000" autocomplete="tel">
+          </div>
+        </div>
+ 
+        <div class="form-field">
+          <label class="form-label" for="email">Email Address</label>
+          <input class="form-input" id="email" type="email" placeholder="your@email.com" autocomplete="email">
+        </div>
+ 
+        <div class="form-field">
+          <label class="form-label" for="guests">Number of Guests</label>
+          <select class="form-input" id="guests">
+            <option value="">How many are coming?</option>
+            <option value="1">1 — Just me!</option>
+            <option value="2">2 — Me + my plus one</option>
+            <option value="3">3 — Three of us</option>
+            <option value="4">4 — Four guests</option>
+            <option value="5+">5+ — We roll deep!</option>
+          </select>
+        </div>
+ 
+        <div class="form-field">
+          <label class="form-label" for="events">Which Celebrations Will You Attend?</label>
+          <select class="form-input" id="events">
+            <option value="">Select ceremonies</option>
+            <option value="both">Both — Umembeso (27 Nov) &amp; White Wedding (28 Nov)</option>
+            <option value="umembeso">Umembeso only — 27 November</option>
+            <option value="wedding">White Wedding only — 28 November</option>
+            <option value="none">Sadly can't make it — sending all my love!</option>
+          </select>
+        </div>
+ 
+        <div class="form-field">
+          <label class="form-label">I'll Be Seated On The…</label>
+          <div class="side-grid">
+            <div class="side-card" id="bride-card" onclick="pickSide('bride')" role="button" tabindex="0" aria-pressed="false">
+              <div class="side-ring">
+                <svg viewBox="0 0 24 24" fill="none" stroke="rgba(168,201,176,0.7)" stroke-width="1.5">
+                  <circle cx="12" cy="7" r="4"/><path d="M6 21v-2a6 6 0 0112 0v2"/>
+                </svg>
+              </div>
+              <div class="side-name">Bride's Side</div>
+              <div class="side-sub">With Ayanda</div>
+            </div>
+            <div class="side-card" id="groom-card" onclick="pickSide('groom')" role="button" tabindex="0" aria-pressed="false">
+              <div class="side-ring">
+                <svg viewBox="0 0 24 24" fill="none" stroke="rgba(168,201,176,0.7)" stroke-width="1.5">
+                  <circle cx="12" cy="7" r="4"/><path d="M6 21v-2a6 6 0 0112 0v2"/>
+                </svg>
+              </div>
+              <div class="side-name">Groom's Side</div>
+              <div class="side-sub">With Ngoako</div>
+            </div>
+          </div>
+          <input type="hidden" id="side-val" value="">
+        </div>
+ 
+        <div class="form-field">
+          <label class="form-label" for="diet">Dietary Requirements (Optional)</label>
+          <input class="form-input" id="diet" type="text" placeholder="Vegetarian, Halal, allergies…">
+        </div>
+ 
+        <div class="form-field">
+          <label class="form-label" for="msg">Message to the Couple (Optional)</label>
+          <textarea class="form-input" id="msg" rows="3" placeholder="Send your love &amp; wishes to Ayanda &amp; Ngoako…"></textarea>
+        </div>
+ 
+        <button class="submit-btn" onclick="submitRSVP()" type="button">Confirm My Attendance</button>
+      </div>
+ 
+      <!-- success -->
+      <div class="rsvp-success" id="rsvp-success" role="status">
+        <span class="success-emoji">🎉</span>
+        <div class="success-headline">You're on the list!</div>
+        <p class="success-msg">We've received your RSVP and cannot WAIT to celebrate with you. Get your outfits ready and prepare to have the time of your life!</p>
+        <div class="success-sig">Ayanda &amp; Ngoako</div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-names">Ayanda &amp; Ngoako</div>
+    <div class="footer-date">27 &amp; 28 November 2025 · KwaZulu-Natal, South Africa</div>
+  </footer>
+ 
+</div><!-- end scroll-content -->
+ 
+<script>
+  /* ═══ STATE ═══ */
+  var opened = false;
+  var chosenSide = '';
+ 
+  /* ═══ ENVELOPE OPEN ═══ */
+  function openEnvelope(){
+    if(opened) return;
+    opened = true;
+ 
+    var seal = document.getElementById('wax-seal');
+    seal.style.opacity = '0';
+    seal.style.transform = 'translate(-50%,-50%) scale(0.6)';
+ 
+    var hint = document.getElementById('tap-hint');
+    hint.style.opacity = '0';
+    hint.style.pointerEvents = 'none';
+  
+    /* open flap after 280ms */
+    setTimeout(function(){
+      document.getElementById('env-flap').classList.add('open');
+    }, 280);
+  
+    /* lift envelope */
+    setTimeout(function(){
+      var env = document.getElementById('the-envelope');
+      env.style.transition = 'transform 0.7s ease, filter 0.7s ease';
+      env.style.transform = 'translateY(-22px) scale(1.06)';
+      env.style.filter = 'drop-shadow(0 50px 90px rgba(0,0,0,0.7))';
+    }, 700);
+ 
+    /* sparkles */
+    setTimeout(startSparkles, 900);
+  
+    /* reveal content */
+    setTimeout(function(){
+      document.getElementById('env-scene').classList.add('gone');
+      var sc = document.getElementById('scroll-content');
+      sc.classList.add('revealed');
+      document.body.style.background = '#FDFAF6';
+      window.scrollTo(0,0);
+    }, 1500);
+  }
+ 
+  /* ═══ SPARKLES ═══ */
+  function startSparkles(){
+    var canvas = document.getElementById('sparkle-canvas');
+    canvas.classList.add('active');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    var ctx = canvas.getContext('2d');
+    var particles = [];
+  
+    var colors = ['#E8B84B','#C9952A','#A8C9B0','#FFD4C2','#FDFAF6','#6DAB83'];
+  
+    for(var i=0;i<80;i++){
+      particles.push({
+        x: Math.random()*canvas.width,
+        y: canvas.height * 0.55 + (Math.random()-0.5)*200,
+        vx: (Math.random()-0.5)*5,
+        vy: -(Math.random()*5+2),
+        size: Math.random()*5+2,
+        color: colors[Math.floor(Math.random()*colors.length)],
+        alpha: 1,
+        spin: (Math.random()-0.5)*0.3,
+        angle: Math.random()*Math.PI*2,
+        shape: Math.random()>0.5?'circle':'star'
+      });
+    }
+ 
+    var frame = 0;
+    function draw(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      particles.forEach(function(p){
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.08;
+        p.vx *= 0.99;
+        p.alpha -= 0.012;
+        p.angle += p.spin;
+        if(p.alpha<=0) return;
+        ctx.globalAlpha = p.alpha;
+        ctx.fillStyle = p.color;
+        ctx.strokeStyle = p.color;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.angle);
+        if(p.shape==='star'){
+          drawStar(ctx, 0, 0, 3, p.size, p.size*0.4);
+        } else {
+          ctx.beginPath();
+          ctx.arc(0,0,p.size,0,Math.PI*2);
+          ctx.fill();
+        }
+        ctx.restore();
+      });
+      ctx.globalAlpha = 1;
+      frame++;
+      if(frame < 120) requestAnimationFrame(draw);
+      else {
+        canvas.classList.remove('active');
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+      }
+    }
+    draw();
+  }
+ 
+  function drawStar(ctx, x, y, spikes, outerR, innerR){
+    var step = Math.PI/spikes;
+    ctx.beginPath();
+    for(var i=0;i<2*spikes;i++){
+      var r = i%2===0 ? outerR : innerR;
+      var a = i*step - Math.PI/2;
+      var px = x + Math.cos(a)*r;
+      var py = y + Math.sin(a)*r;
+      i===0 ? ctx.moveTo(px,py) : ctx.lineTo(px,py);
+    }
+    ctx.closePath();
+    ctx.fill();
+  }
+ 
+  /* ═══ COUNTDOWN ═══ */
+
+  // Get current date
+  var now = new Date();
+
+  // Set target date: 27 November (this year)
+  var targetYear = now.getFullYear();
+  var weddingDate = new Date(targetYear, 10, 28, 11, 0, 0); 
+  // Month is 0-based → 10 = November
+
+  // If date already passed this year → use next year
+  if (now > weddingDate) {
+    weddingDate = new Date(targetYear + 1, 10, 28, 11, 0, 0);
+  }
+
+  function updateCountdown() {
+    var now = new Date();
+    var diff = weddingDate - now;
+
+    if (diff <= 0) {
+      document.getElementById('cd-days').textContent = '0';
+      document.getElementById('cd-hours').textContent = '0';
+      document.getElementById('cd-mins').textContent = '0';
+      document.getElementById('cd-secs').textContent = '0';
+      return;
+    }
+
+    var d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    var h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    var m = Math.floor((diff / (1000 * 60)) % 60);
+    var s = Math.floor((diff / 1000) % 60);
+
+    document.getElementById('cd-days').textContent = d;
+    document.getElementById('cd-hours').textContent = h < 10 ? '0' + h : h;
+    document.getElementById('cd-mins').textContent = m < 10 ? '0' + m : m;
+    document.getElementById('cd-secs').textContent = s < 10 ? '0' + s : s;
+  }
+
+  // Run immediately
+  updateCountdown();
+
+  // Update every second
+  setInterval(updateCountdown, 1000);
+ 
+  /* ═══ SIDE PICK ═══ */
+  function pickSide(s){
+    chosenSide = s;
+    document.getElementById('side-val').value = s;
+    var bc = document.getElementById('bride-card');
+    var gc = document.getElementById('groom-card');
+    bc.classList.toggle('chosen', s==='bride');
+    gc.classList.toggle('chosen', s==='groom');
+    bc.setAttribute('aria-pressed', s==='bride');
+    gc.setAttribute('aria-pressed', s==='groom');
+  }
+  
+  /* ═══ SUBMIT ═══ */
+  async function submitRSVP() {
+    var name  = document.getElementById('fname').value.trim();
+    var phone = document.getElementById('phone').value.trim();
+    var email = document.getElementById('email').value.trim();
+    var guests = document.getElementById('guests').value;
+    var events = document.getElementById('events').value;
+    var diet = document.getElementById('diet').value;
+    var message = document.getElementById('msg').value;
+
+    if (!name || !phone || !email || !guests || !events || !chosenSide) {
+      alert('Please fill in all required fields and choose your seating side.');
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/rsvp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name,
+          phone,
+          email,
+          guests,
+          events,
+          side: chosenSide,
+          diet,
+          message
+        })
+      });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || 'Something went wrong');
+    }
+
+    document.getElementById('rsvp-form').classList.add('hidden');
+    var success = document.getElementById('rsvp-success');
+    success.classList.add('show');
+    success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    } catch (err) {
+      alert('Error: ' + err.message);
+    }
+  }
+ 
+  /* ═══ KEYBOARD ═══ */
+  var envWrap = document.getElementById('env-wrap');
+  envWrap.addEventListener('keydown', function(e){
+    if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openEnvelope(); }
+  });
+  envWrap.addEventListener('click', openEnvelope);
+  
+  /* keyboard for ceremony cards */
+  document.querySelectorAll('.cc').forEach(function(el){
+    el.addEventListener('keydown', function(e){
+      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); el.click(); }
+    });
+  });
+ 
+  /* keyboard for side cards */
+  document.querySelectorAll('.side-card').forEach(function(el){
+    el.addEventListener('keydown', function(e){
+      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); el.click(); }
+    });
+  });
+</script>
+</body>
+</html>
+
