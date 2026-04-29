@@ -10,7 +10,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 var SUPABASE_URL  = 'https://ufbfuslnzniujhwmnrbm.supabase.co';
-var SUPABASE_KEY  = 'sb_publishable_4biQ90_Ml6AFItiub4y0Zg_bQo0DFDD';
+var SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmYmZ1c2xuem5pdWpod21ucmJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczNjg0NjQsImV4cCI6MjA5Mjk0NDQ2NH0.rEExmoAL0hiAne6mJYqnvRwjeftwHeYse11MGRLDFXs';
 
 var isSubmitting = false;
  
