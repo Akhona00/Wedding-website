@@ -11,64 +11,102 @@
 
 var SUPABASE_URL  = 'https://ufbfuslnzniujhwmnrbm.supabase.co';
 var SUPABASE_KEY  = 'sb_publishable_4biQ90_Ml6AFItiub4y0Zg_bQo0DFDD';
-var isSubmitting     = false;
+
+var isSubmitting = false;
  
-function saveRSVP(rsvpData) {
+/* ── Send data to Supabase ── */
+function saveRSVP(data) {
   return fetch(SUPABASE_URL + '/rest/v1/rsvps', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      'apikey': SUPABASE_KEY,
+      'Content-Type':  'application/json',
+      'apikey':        SUPABASE_KEY,
       'Authorization': 'Bearer ' + SUPABASE_KEY,
-      'Prefer': 'return=minimal'
+      'Prefer':        'return=minimal'
     },
-    body: JSON.stringify(rsvpData)
-  }).then(function (res) {
+    body: JSON.stringify(data)
+  })
+  .then(function (res) {
     if (!res.ok) {
       return res.text().then(function (text) {
-        throw new Error(text || 'Server error ' + res.status);
+        /* Try to parse Supabase error JSON for a cleaner message */
+        try {
+          var err = JSON.parse(text);
+          throw new Error(err.message || err.hint || text);
+        } catch (_) {
+          throw new Error(text || 'Server error ' + res.status);
+        }
       });
     }
-    return true;
   });
 }
  
+/* ── Validate & submit ── */
 function submitRSVP() {
-  // Prevent double-submission
-  if (isSubmitting) return;
+  if (isSubmitting) return; /* block double-tap */
  
-  var name    = document.getElementById('fname').value.trim();
-  var phone   = document.getElementById('phone').value.trim();
-  var email   = document.getElementById('email').value.trim();
-  var guests  = document.getElementById('guests').value;
-  var events  = document.getElementById('events').value;
-  var side    = document.getElementById('side-val').value;
-  var diet    = document.getElementById('diet').value.trim();
-  var message = document.getElementById('msg').value.trim();
+  /* Read form values */
+  var full_name = document.getElementById('fname').value.trim();
+  var phone     = document.getElementById('phone').value.trim();
+  var email     = document.getElementById('email').value.trim();
+  var guests    = document.getElementById('guests').value;
+  var events    = document.getElementById('events').value;
+  var side      = document.getElementById('side-val').value;
+  var diet      = document.getElementById('diet').value.trim();
+  var message   = document.getElementById('msg').value.trim();
  
-  if (!name || !phone || !email || !guests || !events || !side) {
-    alert('Please fill in all required fields and choose a side.');
-    return;
-  }
+  /* Validate required fields */
+  if (!full_name) { showFieldError('fname',   'Please enter your full name.');      return; }
+  if (!phone)     { showFieldError('phone',   'Please enter your phone number.');   return; }
+  if (!email)     { showFieldError('email',   'Please enter your email address.');  return; }
+  if (!guests)    { showFieldError('guests',  'Please select number of guests.');   return; }
+  if (!events)    { showFieldError('events',  'Please select which ceremonies.');   return; }
+  if (!side)      { alert('Please choose Bride\'s side or Groom\'s side.'); return; }
  
+  /* Lock submission */
   isSubmitting = true;
   var btn = document.getElementById('submit-btn');
-  btn.disabled = true;
+  btn.disabled    = true;
   btn.textContent = 'Submitting…';
  
-  var rsvpData = { full_name: name, phone, email, guests, events, side, diet, message };
+  /* Payload — column names match your Supabase table exactly */
+  var payload = {
+    full_name : full_name,
+    phone     : phone,
+    email     : email,
+    guests    : guests,
+    events    : events,
+    side      : side,
+    diet      : diet    || null,
+    message   : message || null
+  };
  
-  saveRSVP(rsvpData)
+  saveRSVP(payload)
     .then(function () {
+      /* Hide form, show success */
       document.getElementById('rsvp-form').classList.add('hidden');
       document.getElementById('rsvp-success').classList.add('show');
-      // No need to reset isSubmitting — form is hidden after success
     })
     .catch(function (err) {
-      console.error('RSVP error:', err);
-      alert('Something went wrong. Please try again.\n\n' + err.message);
-      isSubmitting = false;
-      btn.disabled = false;
+      console.error('RSVP submission failed:', err);
+      alert('Oops! Something went wrong. Please try again.\n\nError: ' + err.message);
+      /* Unlock so user can retry */
+      isSubmitting    = false;
+      btn.disabled    = false;
       btn.textContent = 'Confirm My Attendance';
     });
+}
+ 
+/* ── Inline field error helper ── */
+function showFieldError(fieldId, msg) {
+  var field = document.getElementById(fieldId);
+  if (!field) return;
+  field.focus();
+  field.style.borderColor = '#e05a3a';
+  /* Reset border on next input */
+  field.addEventListener('input', function reset() {
+    field.style.borderColor = '';
+    field.removeEventListener('input', reset);
+  }, { once: true });
+  alert(msg);
 }

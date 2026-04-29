@@ -943,22 +943,54 @@ textarea.form-input { resize: vertical; min-height: 88px; }
   to { opacity: 1; transform: scale(1); }
 }
 
-/* ── RESPONSIVE ── */
+/* ════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+════════════════════════════════════ */
+ 
+/* Phones ≤ 480px */
 @media (max-width: 480px) {
-  .env-eyebrow { margin-bottom: clamp(140px, 14vw, 100px); }
+  .hero-dates    { flex-direction: column; gap: 12px; }
+  .date-sep      { width: 36px; height: 1px; }
+  .hero-ctas     { flex-direction: column; align-items: stretch; }
+  .btn           { width: 100%; text-align: center; }
   .ceremony-grid { grid-template-columns: 1fr; }
-  .detail-row { grid-template-columns: 1fr; }
-  .dblock.full { grid-column: auto; }
-  .form-grid { grid-template-columns: 1fr; }
-  .nav-row { flex-direction: column; }
-  .nav-btn, .btn { width: 100%; text-align: center; }
-  .date-sep { width: 36px; height: 1px; }
-  .hero-dates { flex-direction: column; gap: 16px; }
-  .hero.card{grid-template-columns: 1fr;}
+  .detail-row    { grid-template-columns: 1fr; }
+  .dblock.full   { grid-column: auto; }
+  .form-grid     { grid-template-columns: 1fr; }
+  .nav-row       { flex-direction: column; }
+  .nav-btn       { width: 100%; text-align: center; }
+  .scroll-cue    {bottom: 6px; }
+  .hero-card     {grid-template-colums: 2fr;}
 }
-
+ 
+/* Very small phones ≤ 360px */
+@media (max-width: 360px) {
+  .side-grid  { grid-template-columns: 1fr; }
+  .cd-box     { min-width: 44px; padding: 7px 5px; }
+  .rsvp-card  { padding: 18px 13px; }
+}
+ 
+/* Landscape phones — prevent envelope overflowing viewport height */
+@media (max-height: 520px) and (orientation: landscape) {
+  #env-scene        { justify-content: flex-start; padding-top: 10px; overflow-y: auto; }
+  .env-eyebrow      { margin-bottom: 12px; }
+  .env-wrap         { width: min(55vw, 300px); }
+  .tap-hint         { margin-top: 8px; }
+}
+ 
+/* Tablets and up — side-by-side nav buttons */
+@media (min-width: 600px) {
+  .nav-row { flex-wrap: nowrap; }
+}
+ 
+/* Large screens — cap content nicely */
+@media (min-width: 1200px) {
+  .section, .page-inner, .ornament-divider { max-width: 720px; }
+  .rsvp-card { max-width: 580px; }
+}
 @media (max-width: 360px) {
   .side-grid { grid-template-columns: 1fr; }
+  .scroll-cue {bottom: 6px; }
 }
 
 @supports (-webkit-touch-callout: none) {
