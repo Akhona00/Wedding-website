@@ -6,385 +6,769 @@
 <title>Ayanda &amp; Ngoako — Wedding Invitation</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<style>
+  /* ═══════════════════════════════════════
+    VIDEO INTRO SCENE
+  ═══════════════════════════════════════ */
+  #video-scene {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: opacity 0.8s ease;
+  }
+  #video-scene.gone {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  #intro-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+  }
+
+  /* overlay shown before video plays */
+  #video-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.55);
+    z-index: 2;
+    transition: opacity 0.5s ease;
+    cursor: pointer;
+  }
+  #video-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .play-ring {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    border: 2px solid rgba(232,184,75,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    animation: pulse-ring 2s ease-in-out infinite;
+  }
+  @keyframes pulse-ring {
+    0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(232,184,75,0.4); }
+    50% { transform: scale(1.04); box-shadow: 0 0 0 14px rgba(232,184,75,0); }
+  }
+  .play-ring svg { margin-left: 5px; }
+
+  .video-hint-text {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+  }
+  .video-eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(18px, 4vw, 28px);
+    color: rgba(232,184,75,0.9);
+    margin-bottom: 24px;
+    letter-spacing: 0.04em;
+  }
+
+  /* "continue" button shown after video ends */
+  #video-continue {
+    position: absolute;
+    bottom: 48px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  #video-continue.show { display: flex; }
+  #video-continue .cont-btn {
+    background: rgba(232,184,75,0.15);
+    border: 1.5px solid rgba(232,184,75,0.7);
+    color: #E8B84B;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 14px 36px;
+    border-radius: 2px;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: background 0.25s ease;
+  }
+  #video-continue .cont-btn:hover { background: rgba(232,184,75,0.28); }
+
+  /* skip button (top-right) */
+  #skip-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 4;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.6);
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: color 0.2s, border-color 0.2s;
+  }
+  #skip-btn:hover { color: #fff; border-color: rgba(255,255,255,0.5); }
+
+  /* ═══════════════════════════════════════
+    MUSIC PLAYER BAR
+  ═══════════════════════════════════════ */
+  /* ── Floating music bar ── */
+  #music-bar {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 500;
+    display: none;
+    align-items: center;
+    gap: 12px;
+    background: rgba(8,8,8,0.92);
+    border: 1px solid rgba(212,175,55,0.28);
+    border-radius: 50px;
+    padding: 10px 18px 10px 10px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(212,175,55,0.15);
+    transition: opacity 0.4s ease, transform 0.3s ease;
+  }
+  #music-bar.visible { display: flex; }
+  #music-bar.faded { opacity: 0.25; transform: scale(0.97); }
+  #music-bar:hover { opacity: 1 !important; transform: scale(1) !important; }
+
+  #music-toggle {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(212,175,55,0.55);
+    background: rgba(212,175,55,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    flex-shrink: 0;
+  }
+  #music-toggle:hover {
+    background: rgba(212,175,55,0.2);
+    border-color: rgba(212,175,55,0.85);
+  }
+  #music-toggle svg { pointer-events: none; }
+
+  .music-info { display: flex; flex-direction: column; gap: 3px; }
+  .music-title {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.07em;
+    color: rgba(242,236,216,0.9);
+    white-space: nowrap;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .music-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 10px;
+  }
+  .music-bars span {
+    display: block;
+    width: 2px;
+    background: rgba(212,175,55,0.75);
+    border-radius: 1px;
+    animation: eq-bar 0.75s ease-in-out infinite alternate;
+  }
+  .music-bars span:nth-child(1) { height: 4px;  animation-delay: 0s; }
+  .music-bars span:nth-child(2) { height: 9px;  animation-delay: 0.15s; }
+  .music-bars span:nth-child(3) { height: 6px;  animation-delay: 0.3s; }
+  .music-bars span:nth-child(4) { height: 10px; animation-delay: 0.1s; }
+  .music-bars span:nth-child(5) { height: 5px;  animation-delay: 0.22s; }
+  @keyframes eq-bar {
+    from { transform: scaleY(0.3); }
+    to   { transform: scaleY(1); }
+  }
+  .music-bars.paused span { animation-play-state: paused; opacity: 0.25; }
+
+  /* ═══════════════════════════════════════
+    SCROLL CONTENT TWEAK
+  ═══════════════════════════════════════ */
+  #scroll-content { display: none; }
+  #scroll-content.revealed { display: block; }
+
+  /* ═══════════════════════════════════════
+    FORM FIXES
+  ═══════════════════════════════════════ */
+  .rsvp-success {
+    display: none;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .rsvp-success.show { display: block; }
+  #rsvp-form.hidden { display: none; }
+</style>
 </head>
 <body>
 
-<!-- sparkle canvas -->
-<canvas id="sparkle-canvas"></canvas>
+  <!-- sparkle canvas -->
+  <canvas id="sparkle-canvas"></canvas>
 
-<!-- ═══════════════ ENVELOPE SCENE ═══════════════ -->
-<div id="env-scene" role="dialog" aria-label="Wedding invitation envelope">
+  <!-- ═══════════════ VIDEO INTRO SCENE ═══════════════ -->
+  <div id="video-scene" role="dialog" aria-label="Wedding invitation opening video">
 
-  <div class="env-eyebrow">
-    <div class="top-line">You've received a special delivery</div>
-    <div class="sub-line">A wedding invitation awaits you…</div>
-  </div>
+    <!--
+      ╔══════════════════════════════════════════════════════╗
+      ║  REPLACE THE src BELOW WITH YOUR ACTUAL VIDEO FILE  ║
+      ║  e.g. src="envelope-video.mp4"                       ║
+      ║  Recommended: portrait/square ratio, ~10–30 seconds  ║
+      ╚══════════════════════════════════════════════════════╝
+    -->
+    <video id="intro-video" playsinline preload="metadata" poster="">
+      <source src="YOUR_VIDEO_FILE.mp4" type="video/mp4">
+    </video>
 
-  <!-- clickable envelope — fully SVG-based, scales at any size -->
-  <div class="env-wrap" id="env-wrap" tabindex="0" role="button" aria-label="Open the wedding invitation">
-    <div class="env-svg-wrap" id="the-envelope">
-
-      <!-- BASE: envelope body + inner folds drawn as SVG paths -->
-      <svg class="env-base-svg" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-        <defs>
-          <linearGradient id="envGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#0b0b0b"/>
-            <stop offset="40%" stop-color="#2e2e2e"/>
-            <stop offset="100%" stop-color="#040404"/>
-          </linearGradient>
-          <linearGradient id="liningGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#4a4a4a"/>
-            <stop offset="100%" stop-color="#3a3a3a"/>
-          </linearGradient>
-        </defs>
-
-        <!-- envelope body -->
-        <rect x="0" y="0" width="400" height="280" rx="6" fill="url(#liningGrad)"/>
-        <rect x="0" y="0" width="400" height="280" rx="6" fill="url(#envGrad)"/>
-
-        <!-- left inner fold -->
-        <polygon points="0,0 0,280 200,140" fill="rgba(20,40,20,0.28)"/>
-        <!-- right inner fold -->
-        <polygon points="400,0 400,280 200,140" fill="rgba(0,0,0,0.14)"/>
-        <!-- bottom inner fold -->
-        <polygon points="0,280 400,280 200,140" fill="rgba(30,30,30,0.22)"/>
-
-        <!-- subtle decorative leaf sprigs, left side -->
-        <g fill="rgba(255,255,255,0.13)">
-          <ellipse cx="12" cy="90" rx="18" ry="5" transform="rotate(-42 12 90)"/>
-          <ellipse cx="26" cy="72" rx="20" ry="6" transform="rotate(-24 26 72)"/>
-          <ellipse cx="9"  cy="115" rx="15" ry="5" transform="rotate(-58 9 115)"/>
-          <ellipse cx="32" cy="130" rx="20" ry="6" transform="rotate(-16 32 130)"/>
-          <ellipse cx="16" cy="152" rx="17" ry="5" transform="rotate(-62 16 152)"/>
-        </g>
-        <!-- right side -->
-        <g fill="rgba(255,255,255,0.13)">
-          <ellipse cx="388" cy="90" rx="18" ry="5" transform="rotate(42 388 90)"/>
-          <ellipse cx="374" cy="72" rx="20" ry="6" transform="rotate(24 374 72)"/>
-          <ellipse cx="391" cy="115" rx="15" ry="5" transform="rotate(58 391 115)"/>
-          <ellipse cx="368" cy="130" rx="20" ry="6" transform="rotate(16 368 130)"/>
-          <ellipse cx="384" cy="152" rx="17" ry="5" transform="rotate(62 384 152)"/>
-        </g>
-        <!-- top sprigs -->
-        <g fill="rgba(255,255,255,0.10)">
-          <ellipse cx="90"  cy="7" rx="16" ry="5" transform="rotate(-82 90 7)"/>
-          <ellipse cx="130" cy="5" rx="20" ry="6" transform="rotate(-86 130 5)"/>
-          <ellipse cx="200" cy="5" rx="20" ry="6" transform="rotate(86 200 5)"/>
-          <ellipse cx="270" cy="5" rx="20" ry="6" transform="rotate(86 270 5)"/>
-          <ellipse cx="310" cy="7" rx="16" ry="5" transform="rotate(82 310 7)"/>
-        </g>
-      </svg>
-
-      <!-- FLAP: animates open on click -->
-      <div class="env-flap-wrap" id="env-flap">
-        <svg class="env-flap-svg" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMin meet">
-          <!-- front face of flap (visible before open) -->
-          <polygon points="0,0 400,0 200,155" fill="rgba(18,18,18,0.55)"/>
-          <!-- back face of flap (visible after flip — darker) -->
-          <polygon points="0,0 400,0 200,155" fill="rgba(8,8,8,0.82)" transform="scale(1,-1) translate(0,-0)"/>
+    <!-- Tap-to-play overlay (shown until user taps) -->
+    <div id="video-overlay" onclick="playIntroVideo()">
+      <div class="video-eyebrow">You've received a special delivery</div>
+      <div class="play-ring">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="rgba(232,184,75,0.9)">
+          <polygon points="6,4 20,12 6,20"/>
         </svg>
       </div>
-
-      <!-- "You are invited" text -->
-      <div class="env-text"><span>You are invited</span></div>
-
-      <!-- wax seal -->
-      <div class="wax-seal" id="wax-seal">
-        <div class="seal-disc">
-          <span class="seal-text">A&amp;N</span>
-        </div>
-      </div>
-
+      <div class="video-hint-text">Tap to open your invitation</div>
     </div>
+
+    <!-- Continue button (shown after video ends) -->
+    <div id="video-continue">
+      <button class="cont-btn" onclick="dismissVideo()">View Invitation ↓</button>
+    </div>
+
+    <!-- Skip button (always available once overlay is gone) -->
+    <button id="skip-btn" onclick="dismissVideo()">Skip ×</button>
+
   </div>
 
-  <div class="tap-hint" id="tap-hint">
-    <span class="label">Tap to open</span>
-    <span class="arrow-down"></span>
+  <!-- ═══════════════ BACKGROUND MUSIC ═══════════════ -->
+  <!--
+    ╔══════════════════════════════════════════════════════╗
+    ║  Spotify embed — track ID: 67uDHUX1D2qX7pKbcCovm9   ║
+    ╚══════════════════════════════════════════════════════╝
+  -->
+  <!-- Spotify player widget — slides up bottom-right after video dismissed -->
+  <div id="spotify-widget" style="
+    position:fixed;bottom:24px;right:24px;z-index:500;
+    width:min(320px,calc(100vw - 48px));
+    display:none;flex-direction:column;
+    border-radius:16px;overflow:hidden;
+    box-shadow:0 16px 48px rgba(0,0,0,0.65),0 0 0 1px rgba(212,175,55,0.22);
+    transform:translateY(20px);opacity:0;
+    transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1),opacity 0.4s ease;">
+
+    <!-- title bar -->
+    <div style="background:rgba(8,8,8,0.97);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(212,175,55,0.15);">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+        <span style="font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.16em;color:rgba(212,175,55,0.75);text-transform:uppercase;">Now Playing</span>
+      </div>
+      <button onclick="closeSpotify()" aria-label="Minimise player" style="background:none;border:none;color:rgba(255,255,255,0.35);font-size:20px;line-height:1;cursor:pointer;padding:0 2px;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.35)'">×</button>
+    </div>
+
+    <!-- Spotify embed -->
+    <iframe
+      id="spotify-player"
+      src=""
+      data-src="https://open.spotify.com/embed/track/78tuBHHvRxWlorEc4Cc5gi?utm_source=generator&si=a22f73d3a53e4bb6"
+      width="100%" height="152"
+      frameborder="0" allowfullscreen=""
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy"
+      style="display:block;border:none;background:#000;">
+    </iframe>
   </div>
-</div>
 
-<!-- ═══════════════ SCROLL CONTENT ═══════════════ -->
-<div id="scroll-content">
-
-  <!-- HERO -->
-  <section class="hero" id="hero-section" aria-label="Hero">
-    <div class="hero-bg"></div>
-
-    <div class="hero-card">
-      <div class="hero-badge">Celebrating Love</div>
-
-      <div class="hero-names">
-        Ayanda
-        <span class="hero-amp">&amp;</span>
-        Ngoako
-      </div>
-
-      <p class="hero-tagline">Two celebrations. One love story.</p>
-
-      <div class="hero-dates">
-        <div class="date-item">
-          <div class="date-num">27</div>
-          <div class="date-label">November · Umembeso</div>
-        </div>
-        <div class="date-sep"></div>
-        <div class="date-item">
-          <div class="date-num">28</div>
-          <div class="date-label">November · White Wedding</div>
-        </div>
-      </div>
-
-      <!-- countdown -->
-      <div class="countdown" id="countdown" aria-label="Countdown to wedding">
-        <div class="cd-box"><span class="cd-num" id="cd-days">—</span><span class="cd-label">Days</span></div>
-        <div class="cd-box"><span class="cd-num" id="cd-hours">—</span><span class="cd-label">Hours</span></div>
-        <div class="cd-box"><span class="cd-num" id="cd-mins">—</span><span class="cd-label">Mins</span></div>
-        <div class="cd-box"><span class="cd-num" id="cd-secs">—</span><span class="cd-label">Secs</span></div>
-      </div>
-
-      <div class="hero-ctas">
-        <button class="btn btn-primary" onclick="scrollToEl('rsvp')">RSVP Now</button>
-        <button class="btn btn-ghost" onclick="scrollToEl('celebrations')">View Details</button>
+  <!-- Re-open pill (shown after widget is closed) -->
+  <button id="spotify-reopen" onclick="openSpotify()" aria-label="Open music player" style="
+    position:fixed;bottom:24px;right:24px;z-index:500;
+    display:none;align-items:center;gap:10px;
+    background:rgba(8,8,8,0.93);
+    border:1px solid rgba(212,175,55,0.28);
+    border-radius:50px;padding:9px 16px 9px 11px;
+    backdrop-filter:blur(20px);
+    box-shadow:0 8px 32px rgba(0,0,0,0.5),inset 0 1px 0 rgba(212,175,55,0.12);
+    cursor:pointer;transition:opacity 0.3s,transform 0.2s;">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+    <div style="display:flex;flex-direction:column;gap:2px;">
+      <span style="font-family:'Jost',sans-serif;font-size:11px;color:rgba(242,236,216,0.9);letter-spacing:0.04em;white-space:nowrap;">Masithokoze · Mafikizolo</span>
+      <div style="display:flex;align-items:flex-end;gap:2px;height:9px;">
+        <span style="display:block;width:2px;height:4px;background:rgba(212,175,55,0.7);border-radius:1px;animation:eq-bar 0.75s ease-in-out infinite alternate;"></span>
+        <span style="display:block;width:2px;height:8px;background:rgba(212,175,55,0.7);border-radius:1px;animation:eq-bar 0.75s ease-in-out infinite alternate;animation-delay:0.15s"></span>
+        <span style="display:block;width:2px;height:5px;background:rgba(212,175,55,0.7);border-radius:1px;animation:eq-bar 0.75s ease-in-out infinite alternate;animation-delay:0.3s"></span>
+        <span style="display:block;width:2px;height:9px;background:rgba(212,175,55,0.7);border-radius:1px;animation:eq-bar 0.75s ease-in-out infinite alternate;animation-delay:0.1s"></span>
       </div>
     </div>
+  </button>
 
-    <div class="scroll-cue" aria-hidden="true">
-      Scroll to explore
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 5v14M5 12l7 7 7-7"/>
-      </svg>
-    </div>
-  </section>
 
-  <!-- CELEBRATIONS OVERVIEW -->
-  <div class="section" id="celebrations">
-    <div style="text-align:center;margin-bottom:8px">
-      <div class="section-overline">The Celebrations</div>
-      <h2 class="section-heading">Join us for <em>two beautiful days</em></h2>
-      <p class="section-body">
-        We're so excited to celebrate with you across two very special ceremonies — one rooted in our rich culture, the other in timeless elegance. Come for one or both — either way, we cannot wait to see you!
-      </p>
-    </div>
-    <div class="ceremony-grid">
-      <div class="cc cc-trad" onclick="scrollToEl('umembeso')" role="button" tabindex="0" aria-label="View Umembeso details">
-        <div class="cc-body">
-          <div class="cc-badge">27 November</div>
-          <div class="cc-name">Umembeso</div>
-          <div class="cc-sub">Traditional Ceremony · Howick, KZN</div>
-          <div class="cc-ghost-num">27</div>
-        </div>
-        <div class="cc-footer">View details →</div>
-      </div>
-      <div class="cc cc-wed" onclick="scrollToEl('wedding')" role="button" tabindex="0" aria-label="View White Wedding details">
-        <div class="cc-body">
-          <div class="cc-badge">28 November</div>
-          <div class="cc-name">White Wedding</div>
-          <div class="cc-sub">Ceremony &amp; Reception · Netherwoods Farm</div>
-          <div class="cc-ghost-num">28</div>
-        </div>
-        <div class="cc-footer">View details →</div>
+      <div class="music-bars" id="eq-bars">
+        <span></span><span></span><span></span><span></span><span></span>
       </div>
     </div>
   </div>
 
-  <div class="ornament-divider"><div class="gem"></div></div>
+  <!-- ═══════════════ SCROLL CONTENT ═══════════════ -->
+  <div id="scroll-content">
 
-  <!-- UMEMBESO -->
-  <div class="page-section" id="umembeso">
-    <div class="page-inner">
-      <span class="pill pill-sage">27 November · Howick, KZN</span>
-      <h1 class="ceremony-title">Umembeso</h1>
-      <p class="ceremony-desc">A beautiful Zulu tradition where families unite with gifts and blessings from the ancestors. Come ready for colour, song, dancing, and pure joy that fills your soul!</p>
+    <!-- HERO -->
+    <section class="hero" id="hero-section" aria-label="Hero">
+      <div class="hero-bg"></div>
 
-      <div class="detail-row">
-        <div class="dblock">
-          <div class="dblock-label">Date</div>
-          <div class="dblock-val">Friday</div>
-          <div class="dblock-sub">27 November 2025</div>
+      <div class="hero-card">
+        <div class="hero-badge">Celebrating Love</div>
+
+        <div class="hero-names">
+          Ayanda
+          <span class="hero-amp">&amp;</span>
+          Ngoako
         </div>
-        <div class="dblock">
-          <div class="dblock-label">Location</div>
-          <div class="dblock-val">Howick</div>
-          <div class="dblock-sub">KwaZulu-Natal, South Africa</div>
-        </div>
-      </div>
-      <div class="detail-row">
-        <div class="dblock full">
-          <div class="dblock-label">Dress Code — Strictly Traditional Attire</div>
-          <div class="dblock-val">Honour Our Heritage</div>
-          <div class="dblock-sub">Show up in full colour and celebrate our beautiful culture</div>
-          <div class="chips">
-            <span class="chip chip-green">Isishweshwe</span>
-            <span class="chip chip-green">African Print</span>
-            <span class="chip chip-green">Zulu Regalia</span>
-            <span class="chip chip-green">Cultural Dress</span>
+
+        <p class="hero-tagline">Two celebrations. One love story.</p>
+
+        <div class="hero-dates">
+          <div class="date-item">
+            <div class="date-num">27</div>
+            <div class="date-label">November · Umembeso</div>
           </div>
-        </div>
-      </div>
-
-      <div class="quote-banner">No jeans. No suits. Come in your cultural best — make the ancestors proud! 🎉</div>
-
-      <div class="nav-row">
-        <button class="nav-btn nav-dark" onclick="scrollToEl('wedding')">The Wedding →</button>
-        <button class="nav-btn nav-terra" onclick="scrollToEl('rsvp')">RSVP Now</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="ornament-divider" style="margin-top:8px"><div class="gem"></div></div>
-
-  <!-- WHITE WEDDING -->
-  <div class="page-section" id="wedding">
-    <div class="page-inner">
-      <span class="pill pill-terra">28 November · Netherwoods Farm</span>
-      <h1 class="ceremony-title">White Wedding</h1>
-      <p class="ceremony-desc">The main event! Vows, tears, champagne, and dancing until our feet give out. Come elegant, come ready to celebrate the night away in pure style.</p>
-
-      <div class="detail-row">
-        <div class="dblock">
-          <div class="dblock-label">Date</div>
-          <div class="dblock-val">Saturday</div>
-          <div class="dblock-sub">28 November 2025</div>
-        </div>
-        <div class="dblock">
-          <div class="dblock-label">Venue</div>
-          <div class="dblock-val">Netherwoods Farm</div>
-          <div class="dblock-sub">KwaZulu-Natal, South Africa</div>
-        </div>
-      </div>
-      <div class="detail-row">
-        <div class="dblock full">
-          <div class="dblock-label">Dress Code — Black Tie</div>
-          <div class="dblock-val">Look Like a Million Rands</div>
-          <div class="dblock-sub">Think elegance, glamour, and your absolute best self</div>
-          <div class="chips">
-            <span class="chip">Tuxedos</span>
-            <span class="chip">Evening Gowns</span>
-            <span class="chip">Formal Suits</span>
-            <span class="chip">Black Tie Optional</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="quote-banner">Come for the love. Stay for the dancing. Leave with memories that last forever.</div>
-
-      <div class="nav-row">
-        <button class="nav-btn nav-sage" onclick="scrollToEl('umembeso')">← Umembeso</button>
-        <button class="nav-btn nav-terra" onclick="scrollToEl('rsvp')">RSVP Now</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="ornament-divider" style="margin-top:8px"><div class="gem"></div></div>
-
-  <!-- RSVP -->
-  <section class="rsvp-section" id="rsvp" aria-label="RSVP">
-    <div class="rsvp-card">
-      <div class="rsvp-title">RSVP</div>
-      <div class="rsvp-deadline">Kindly reply by 31 October 2025</div>
-
-      <div id="rsvp-form">
-        <div class="form-grid">
-          <div class="form-field">
-            <label class="form-label" for="fname">Full Name</label>
-            <input class="form-input" id="fname" type="text" placeholder="Your full name" autocomplete="name">
-          </div>
-          <div class="form-field">
-            <label class="form-label" for="phone">Phone Number</label>
-            <input class="form-input" id="phone" type="tel" placeholder="+27 000 000 000" autocomplete="tel">
+          <div class="date-sep"></div>
+          <div class="date-item">
+            <div class="date-num">28</div>
+            <div class="date-label">November · White Wedding</div>
           </div>
         </div>
 
-        <div class="form-field">
-          <label class="form-label" for="email">Email Address</label>
-          <input class="form-input" id="email" type="email" placeholder="your@email.com" autocomplete="email">
+        <div class="countdown" id="countdown" aria-label="Countdown to wedding">
+          <div class="cd-box"><span class="cd-num" id="cd-days">—</span><span class="cd-label">Days</span></div>
+          <div class="cd-box"><span class="cd-num" id="cd-hours">—</span><span class="cd-label">Hours</span></div>
+          <div class="cd-box"><span class="cd-num" id="cd-mins">—</span><span class="cd-label">Mins</span></div>
+          <div class="cd-box"><span class="cd-num" id="cd-secs">—</span><span class="cd-label">Secs</span></div>
         </div>
 
-        <div class="form-field">
-          <label class="form-label" for="guests">Number of Guests</label>
-          <select class="form-input" id="guests">
-            <option value="">How many are coming?</option>
-            <option value="1">1 — Just me!</option>
-            <option value="2">2 — Me + my plus one</option>
-            <option value="3">3 — Three of us</option>
-            <option value="4">4 — Four guests</option>
-            <option value="5+">5+ — We roll deep!</option>
-          </select>
+        <div class="hero-ctas">
+          <button class="btn btn-primary" onclick="scrollToEl('rsvp')">RSVP Now</button>
+          <button class="btn btn-ghost" onclick="scrollToEl('celebrations')">View Details</button>
         </div>
+      </div>
 
-        <div class="form-field">
-          <label class="form-label" for="events">Which Celebrations Will You Attend?</label>
-          <select class="form-input" id="events">
-            <option value="">Select ceremonies</option>
-            <option value="both">Both — Umembeso (27 Nov) &amp; White Wedding (28 Nov)</option>
-            <option value="umembeso">Umembeso only — 27 November</option>
-            <option value="wedding">White Wedding only — 28 November</option>
-            <option value="none">Sadly can't make it — sending all my love!</option>
-          </select>
+      <div class="scroll-cue" aria-hidden="true">
+        Scroll to explore
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5v14M5 12l7 7 7-7"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- CELEBRATIONS OVERVIEW -->
+    <div class="section" id="celebrations">
+      <div style="text-align:center;margin-bottom:8px">
+        <div class="section-overline">The Celebrations</div>
+        <h2 class="section-heading">Join us for <em>two beautiful days</em></h2>
+        <p class="section-body">
+          We're so excited to celebrate with you across two very special ceremonies, one rooted in our rich culture, the other in timeless elegance. Come for one or both, either way, we cannot wait to see you!
+        </p>
+      </div>
+      <div class="ceremony-grid">
+        <div class="cc cc-trad" onclick="scrollToEl('umembeso')" role="button" tabindex="0" aria-label="View Umembeso details">
+          <div class="cc-body">
+            <div class="cc-badge">27 November</div>
+            <div class="cc-name">Umembeso</div>
+            <div class="cc-sub">Traditional Ceremony · Howick, KZN</div>
+            <div class="cc-ghost-num">27</div>
+          </div>
+          <div class="cc-footer">View details →</div>
         </div>
+        <div class="cc cc-wed" onclick="scrollToEl('wedding')" role="button" tabindex="0" aria-label="View White Wedding details">
+          <div class="cc-body">
+            <div class="cc-badge">28 November</div>
+            <div class="cc-name">White Wedding</div>
+            <div class="cc-sub">Ceremony &amp; Reception · Netherwoods Farm</div>
+            <div class="cc-ghost-num">28</div>
+          </div>
+          <div class="cc-footer">View details →</div>
+        </div>
+      </div>
+    </div>
 
-        <div class="form-field">
-          <label class="form-label">I'll Be Seated On The…</label>
-          <div class="side-grid">
-            <div class="side-card" id="bride-card" onclick="pickSide('bride')" role="button" tabindex="0" aria-pressed="false">
-              <div class="side-ring">
-                <svg viewBox="0 0 24 24" fill="none" stroke="rgba(19, 213, 68, 0.7)" stroke-width="1.5">
-                  <circle cx="12" cy="7" r="4"/><path d="M6 21v-2a6 6 0 0112 0v2"/>
-                </svg>
-              </div>
-              <div class="side-name">Bride's Side</div>
-              <div class="side-sub">With Ayanda</div>
-            </div>
-            <div class="side-card" id="groom-card" onclick="pickSide('groom')" role="button" tabindex="0" aria-pressed="false">
-              <div class="side-ring">
-                <svg viewBox="0 0 24 24" fill="none" stroke="rgba(168,201,176,0.7)" stroke-width="1.5">
-                  <circle cx="12" cy="7" r="4"/><path d="M6 21v-2a6 6 0 0112 0v2"/>
-                </svg>
-              </div>
-              <div class="side-name">Groom's Side</div>
-              <div class="side-sub">With Ngoako</div>
+    <div class="ornament-divider"><div class="gem"></div></div>
+
+    <!-- UMEMBESO -->
+    <div class="page-section" id="umembeso">
+      <div class="page-inner">
+        <span class="pill pill-sage">27 November · Howick, KZN</span>
+        <h1 class="ceremony-title">Umembeso</h1>
+        <p class="ceremony-desc">A beautiful Zulu tradition where families unite with gifts and blessings from the ancestors. Come ready for colour, song, dancing, and pure joy that fills your soul!</p>
+
+        <div class="detail-row">
+          <div class="dblock">
+            <div class="dblock-label">Date</div>
+            <div class="dblock-val">Friday</div>
+            <div class="dblock-sub">27 November 2025</div>
+          </div>
+          <div class="dblock">
+            <div class="dblock-label">Location</div>
+            <div class="dblock-val">Howick</div>
+            <div class="dblock-sub">KwaZulu-Natal, South Africa</div>
+          </div>
+        </div>
+        <div class="detail-row">
+          <div class="dblock full">
+            <div class="dblock-label">Dress Code — Strictly Traditional Attire</div>
+            <div class="dblock-val">Honour Our Heritage</div>
+            <div class="dblock-sub">Show up in full colour and celebrate our beautiful culture</div>
+            <div class="chips">
+              <span class="chip chip-green">Sepedi Regalia</span>
+              <span class="chip chip-green">African Print</span>
+              <span class="chip chip-green">Isishweshwe</span>
+              <span class="chip chip-green">Cultural Dress</span>
             </div>
           </div>
-          <input type="hidden" id="side-val" value="">
         </div>
 
-        <div class="form-field">
-          <label class="form-label" for="diet">Dietary Requirements (Optional)</label>
-          <input class="form-input" id="diet" type="text" placeholder="Vegetarian, Halal, allergies…">
+        <div class="quote-banner">No jeans. No suits. Come in your cultural best, make the ancestors proud!</div>
+
+        <div class="nav-row">
+          <button class="nav-btn nav-dark" onclick="scrollToEl('wedding')">The Wedding →</button>
+          <button class="nav-btn nav-terra" onclick="scrollToEl('rsvp')">RSVP Now</button>
         </div>
-
-        <div class="form-field">
-          <label class="form-label" for="msg">Message to the Couple (Optional)</label>
-          <textarea class="form-input" id="msg" rows="3" placeholder="Send your love &amp; wishes to Ayanda &amp; Ngoako…"></textarea>
-        </div>
-
-        <button class="submit-btn" id="submit-btn" onclick="submitRSVP()" type="button">Confirm My Attendance</button>
-      </div>
-
-      <!-- success -->
-      <div class="rsvp-success" id="rsvp-success" role="status">
-        <span class="success-emoji">🎉</span>
-        <div class="success-headline">You're on the list!</div>
-        <p class="success-msg">We've received your RSVP and cannot WAIT to celebrate with you. Get your outfits ready and prepare to have the time of your life!</p>
-        <div class="success-sig">Ayanda &amp; Ngoako</div>
       </div>
     </div>
-  </section>
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="footer-names">Ayanda &amp; Ngoako</div>
-    <div class="footer-date">27 &amp; 28 November 2025 · KwaZulu-Natal, South Africa</div>
-  </footer>
+    <div class="ornament-divider" style="margin-top:8px"><div class="gem"></div></div>
 
-</div><!-- end scroll-content -->
-<script src="rsvp.js"></script>
-<script>
-  /* ═══ STATE ═══ */
-  var opened = false;
-  var chosenSide = '';
+    <!-- WHITE WEDDING -->
+    <div class="page-section" id="wedding">
+      <div class="page-inner">
+        <span class="pill pill-terra">28 November · Netherwoods Farm</span>
+        <h1 class="ceremony-title">White Wedding</h1>
+        <p class="ceremony-desc">The main event! Vows, tears, champagne, and dancing until our feet give out. Come elegant, come ready to celebrate the night away in pure style.</p>
 
-  /* ═══ HELPERS ═══ */
+        <div class="detail-row">
+          <div class="dblock">
+            <div class="dblock-label">Date</div>
+            <div class="dblock-val">Saturday</div>
+            <div class="dblock-sub">28 November 2025</div>
+          </div>
+          <div class="dblock">
+            <div class="dblock-label">Venue</div>
+            <div class="dblock-val">Netherwoods Farm</div>
+            <div class="dblock-sub">KwaZulu-Natal, South Africa</div>
+          </div>
+        </div>
+        <div class="detail-row">
+          <div class="dblock full">
+            <div class="dblock-label">Dress Code — Black Tie</div>
+            <div class="dblock-val">Look Like a Million Rands</div>
+            <div class="dblock-sub">Think elegance, glamour, and your absolute best self</div>
+            <div class="chips">
+              <span class="chip">Tuxedos</span>
+              <span class="chip">Evening Gowns</span>
+              <span class="chip">Formal Suits</span>
+              <span class="chip">Black Tie Optional</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="quote-banner">Come for the love. Stay for the dancing. Leave with memories that last forever.</div>
+
+        <div class="nav-row">
+          <button class="nav-btn nav-sage" onclick="scrollToEl('umembeso')">← Umembeso</button>
+          <button class="nav-btn nav-terra" onclick="scrollToEl('rsvp')">RSVP Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ornament-divider" style="margin-top:8px"><div class="gem"></div></div>
+
+    <!-- RSVP -->
+    <section class="rsvp-section" id="rsvp" aria-label="RSVP">
+      <div class="rsvp-card">
+        <div class="rsvp-title">RSVP</div>
+        <div class="rsvp-rule"></div>
+        <div class="rsvp-deadline">Kindly reply by 31 October 2025</div>
+
+        <div id="rsvp-form">
+          <div class="form-grid">
+            <div class="form-field">
+              <label class="form-label" for="fname">Full Name</label>
+              <input class="form-input" id="fname" type="text" placeholder="Your full name" autocomplete="name">
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="phone">Phone Number</label>
+              <input class="form-input" id="phone" type="tel" placeholder="+27 000 000 000" autocomplete="tel">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="email">Email Address</label>
+            <input class="form-input" id="email" type="email" placeholder="your@email.com" autocomplete="email">
+          </div>
+
+          <!-- ✅ Guests limited to 1 or 2 only -->
+          <div class="form-field">
+            <label class="form-label" for="guests">Number of Guests</label>
+            <select class="form-input" id="guests">
+              <option value="">How many are coming?</option>
+              <option value="1">1 — Just me!</option>
+              <option value="2">2 — Me &amp; my plus one</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="events">Which Celebrations Will You Attend?</label>
+            <select class="form-input" id="events">
+              <option value="">Select ceremonies</option>
+              <option value="both">Both — Umembeso (27 Nov) &amp; White Wedding (28 Nov)</option>
+              <option value="umembeso">Umembeso only — 27 November</option>
+              <option value="wedding">White Wedding only — 28 November</option>
+              <option value="none">Sadly can't make it — sending all my love!</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label">I'll Be Seated On The…</label>
+            <div class="side-grid">
+              <div class="side-card" id="bride-card" onclick="pickSide('bride')" role="button" tabindex="0" aria-pressed="false">
+                <div class="side-ring">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="rgba(19, 213, 68, 0.7)" stroke-width="1.5">
+                    <circle cx="12" cy="7" r="4"/><path d="M6 21v-2a6 6 0 0112 0v2"/>
+                  </svg>
+                </div>
+                <div class="side-name">Bride's Side</div>
+                <div class="side-sub">With Ayanda</div>
+              </div>
+              <div class="side-card" id="groom-card" onclick="pickSide('groom')" role="button" tabindex="0" aria-pressed="false">
+                <div class="side-ring">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="rgba(168,201,176,0.7)" stroke-width="1.5">
+                    <circle cx="12" cy="7" r="4"/><path d="M6 21v-2a6 6 0 0112 0v2"/>
+                  </svg>
+                </div>
+                <div class="side-name">Groom's Side</div>
+                <div class="side-sub">With Ngoako</div>
+              </div>
+            </div>
+            <input type="hidden" id="side-val" value="">
+            <div class="capacity-notice">Limited to 50 guests per side</div>
+            <div class="side-full-msg" id="side-full-msg"></div>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="diet">Dietary Requirements (Optional)</label>
+            <input class="form-input" id="diet" type="text" placeholder="Vegetarian, Halal, allergies…">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="msg">Song Request (Optional)</label>
+            <input class="form-input" id="msg" type="text" placeholder="e.g. All of Me — John Legend, or a favourite of yours…">
+            <div style="font-size:10px;color:rgba(212,175,55,0.5);margin-top:6px;letter-spacing:0.04em;">Suggest a song you’d love to hear on the dance floor 🎵</div>
+          </div>
+
+          <button class="submit-btn" id="submit-btn" onclick="submitRSVP()" type="button">Confirm My Attendance</button>
+        </div>
+
+        <!-- success state -->
+        <div class="rsvp-success" id="rsvp-success" role="status">
+          <span class="success-emoji"></span>
+          <div class="success-headline">You're on the list!</div>
+          <p class="success-msg">We've received your RSVP and cannot WAIT to celebrate with you. Get your outfits ready and prepare to have the time of your life!</p>
+          <div class="success-sig">Ayanda &amp; Ngoako</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="footer-names">Ayanda &amp; Ngoako</div>
+      <div class="footer-date">27 &amp; 28 November 2025 · KwaZulu-Natal, South Africa</div>
+    </footer>
+
+  </div><!-- end scroll-content -->
+
+  <!-- ═══════════════ SCRIPTS ═══════════════ -->
+  <script src="rsvp.js"></script>
+  <script>
+    /* ═══════════════════════════════════════════════
+      VIDEO INTRO
+    ═══════════════════════════════════════════════ */
+    var videoEl    = document.getElementById('intro-video');
+    var overlay    = document.getElementById('video-overlay');
+    var continueEl = document.getElementById('video-continue');
+    var videoDone  = false;
+
+  function playIntroVideo() {
+    overlay.classList.add('hidden');
+    videoEl.play().catch(function() {
+      /* Autoplay blocked — show continue immediately */
+      overlay.classList.remove('hidden');
+    });
+  }
+
+  videoEl.addEventListener('ended', function() {
+    videoDone = true;
+    continueEl.classList.add('show');
+  });
+
+  /* Also show "continue" if user has watched most of the video */
+  videoEl.addEventListener('timeupdate', function() {
+    if (videoEl.duration && videoEl.currentTime >= videoEl.duration - 1) {
+      continueEl.classList.add('show');
+    }
+  });
+
+  /* Tapping the video itself (not overlay) pauses/resumes */
+  videoEl.addEventListener('click', function() {
+    if (overlay.classList.contains('hidden')) {
+      videoEl.paused ? videoEl.play() : videoEl.pause();
+    }
+  });
+
+  function dismissVideo() {
+    var scene = document.getElementById('video-scene');
+    scene.classList.add('gone');
+
+    var sc = document.getElementById('scroll-content');
+    sc.classList.add('revealed');
+    document.body.style.background = '#FDFAF6';
+    window.scrollTo(0, 0);
+
+    /* Show music bar & try to start music */
+    startMusic();
+
+    /* Stop the intro video to free resources */
+    setTimeout(function() { videoEl.pause(); videoEl.src = ''; }, 900);
+  }
+
+  /* ═══════════════════════════════════════════════
+    SPOTIFY WIDGET
+  ═══════════════════════════════════════════════ */
+  var SPOTIFY_EMBED_SRC = 'https://open.spotify.com/embed/track/78tuBHHvRxWlorEc4Cc5gi?utm_source=generator&si=a22f73d3a53e4bb6';
+  var spotifyLoaded = false;
+
+  function startMusic() {
+    /* Show the widget and load the iframe */
+    var widget = document.getElementById('spotify-widget');
+    var frame  = document.getElementById('spotify-player');
+    if (!spotifyLoaded && frame) {
+      frame.src = SPOTIFY_EMBED_SRC;
+      spotifyLoaded = true;
+    }
+    widget.style.display = 'flex';
+    /* Animate in */
+    setTimeout(function() {
+      widget.style.opacity = '1';
+      widget.style.transform = 'translateY(0)';
+    }, 50);
+  }
+
+  function closeSpotify() {
+    var widget  = document.getElementById('spotify-widget');
+    var reopen  = document.getElementById('spotify-reopen');
+    /* Slide out */
+    widget.style.opacity = '0';
+    widget.style.transform = 'translateY(20px)';
+    setTimeout(function() {
+      widget.style.display = 'none';
+      reopen.style.display = 'flex';
+    }, 400);
+  }
+
+  function openSpotify() {
+    var widget  = document.getElementById('spotify-widget');
+    var reopen  = document.getElementById('spotify-reopen');
+    reopen.style.display = 'none';
+    widget.style.display = 'flex';
+    setTimeout(function() {
+      widget.style.opacity = '1';
+      widget.style.transform = 'translateY(0)';
+    }, 50);
+  }
+
+  /* Keep for compatibility — no longer needed but won't break anything */
+  function toggleMusic() { closeSpotify(); }
+  function updateMusicUI() {}
+
+  /* Fade music bar slightly when user hasn't interacted in a while */
+  var musicBarTimer;
+  function resetMusicBarFade() {
+    var bar = document.getElementById('music-bar');
+    bar.classList.remove('faded');
+    clearTimeout(musicBarTimer);
+    musicBarTimer = setTimeout(function() {
+      bar.classList.add('faded');
+    }, 4000);
+  }
+  document.addEventListener('scroll', resetMusicBarFade);
+  document.addEventListener('touchstart', resetMusicBarFade);
+
+  /* ═══════════════════════════════════════════════
+    COUNTDOWN
+  ═══════════════════════════════════════════════ */
+  function getWeddingDate() {
+    var now  = new Date();
+    var year = now.getFullYear();
+    var t    = new Date(year, 10, 28, 11, 0, 0);
+    if (now >= t) t = new Date(year + 1, 10, 28, 11, 0, 0);
+    return t;
+  }
+  var weddingDate = getWeddingDate();
+
+  function updateCountdown() {
+    var diff = weddingDate - new Date();
+    if (diff <= 0) {
+      ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(function(id) {
+        document.getElementById(id).textContent = '0';
+      });
+      return;
+    }
+    var d = Math.floor(diff / 86400000);
+    var h = Math.floor((diff / 3600000) % 24);
+    var m = Math.floor((diff / 60000) % 60);
+    var s = Math.floor((diff / 1000) % 60);
+    document.getElementById('cd-days').textContent  = d;
+    document.getElementById('cd-hours').textContent = h < 10 ? '0'+h : h;
+    document.getElementById('cd-mins').textContent  = m < 10 ? '0'+m : m;
+    document.getElementById('cd-secs').textContent  = s < 10 ? '0'+s : s;
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  /* ═══════════════════════════════════════════════
+    HELPERS
+  ═══════════════════════════════════════════════ */
   function scrollToEl(id) {
     var el = document.getElementById(id);
     if (!el) return;
@@ -392,156 +776,7 @@
     window.scrollTo({ top: offset, behavior: 'smooth' });
   }
 
-  /* ═══ ENVELOPE OPEN ═══ */
-  function openEnvelope() {
-    if (opened) return;
-    opened = true;
-
-    var seal = document.getElementById('wax-seal');
-    seal.style.opacity = '0';
-    seal.style.transform = 'translate(-50%,-50%) scale(0.6)';
-
-    var hint = document.getElementById('tap-hint');
-    hint.style.opacity = '0';
-    hint.style.pointerEvents = 'none';
-
-    setTimeout(function () {
-      document.getElementById('env-flap').classList.add('open');
-    }, 280);
-
-    setTimeout(function () {
-      var env = document.getElementById('the-envelope');
-      env.style.transition = 'transform 0.7s ease, filter 0.7s ease';
-      env.style.transform = 'translateY(-22px) scale(1.06)';
-      env.style.filter = 'drop-shadow(0 50px 90px rgba(0,0,0,0.7))';
-    }, 700);
-
-    setTimeout(startSparkles, 900);
-
-    setTimeout(function () {
-      document.getElementById('env-scene').classList.add('gone');
-      var sc = document.getElementById('scroll-content');
-      sc.classList.add('revealed');
-      document.body.style.background = '#FDFAF6';
-      window.scrollTo(0, 0);
-    }, 1500);
-  }
-
-  /* ═══ SPARKLES ═══ */
-  function startSparkles() {
-    var canvas = document.getElementById('sparkle-canvas');
-    canvas.classList.add('active');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    var ctx = canvas.getContext('2d');
-    var particles = [];
-    var colors = ['#E8B84B','#C9952A','#A8C9B0','#FFD4C2','#FDFAF6','#6DAB83'];
-
-    for (var i = 0; i < 80; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: canvas.height * 0.55 + (Math.random() - 0.5) * 200,
-        vx: (Math.random() - 0.5) * 5,
-        vy: -(Math.random() * 5 + 2),
-        size: Math.random() * 5 + 2,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        alpha: 1,
-        spin: (Math.random() - 0.5) * 0.3,
-        angle: Math.random() * Math.PI * 2,
-        shape: Math.random() > 0.5 ? 'circle' : 'star'
-      });
-    }
-
-    var frame = 0;
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(function (p) {
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vy += 0.08;
-        p.vx *= 0.99;
-        p.alpha -= 0.012;
-        p.angle += p.spin;
-        if (p.alpha <= 0) return;
-        ctx.globalAlpha = p.alpha;
-        ctx.fillStyle = p.color;
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.angle);
-        if (p.shape === 'star') {
-          drawStar(ctx, 0, 0, 3, p.size, p.size * 0.4);
-        } else {
-          ctx.beginPath();
-          ctx.arc(0, 0, p.size, 0, Math.PI * 2);
-          ctx.fill();
-        }
-        ctx.restore();
-      });
-      ctx.globalAlpha = 1;
-      frame++;
-      if (frame < 120) requestAnimationFrame(draw);
-      else {
-        canvas.classList.remove('active');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }
-    }
-    draw();
-  }
-
-  function drawStar(ctx, x, y, spikes, outerR, innerR) {
-    var step = Math.PI / spikes;
-    ctx.beginPath();
-    for (var i = 0; i < 2 * spikes; i++) {
-      var r = i % 2 === 0 ? outerR : innerR;
-      var a = i * step - Math.PI / 2;
-      ctx.lineTo(x + Math.cos(a) * r, y + Math.sin(a) * r);
-    }
-    ctx.closePath();
-    ctx.fill();
-  }
-
-  /* ═══ COUNTDOWN ═══ */
-  // Target: 28 November of the nearest upcoming year
-  function getWeddingDate() {
-    var now = new Date();
-    var year = now.getFullYear();
-    var target = new Date(year, 10, 28, 11, 0, 0); // November = month 10 (0-indexed)
-    if (now >= target) {
-      target = new Date(year + 1, 10, 28, 11, 0, 0);
-    }
-    return target;
-  }
-
-  var weddingDate = getWeddingDate();
-
-  function updateCountdown() {
-    var now = new Date();
-    var diff = weddingDate - now;
-
-    if (diff <= 0) {
-      ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(function(id) {
-        document.getElementById(id).textContent = '0';
-      });
-      return;
-    }
-
-    var d = Math.floor(diff / (1000 * 60 * 60 * 24));
-    var h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    var m = Math.floor((diff / (1000 * 60)) % 60);
-    var s = Math.floor((diff / 1000) % 60);
-
-    document.getElementById('cd-days').textContent = d;
-    document.getElementById('cd-hours').textContent = h < 10 ? '0' + h : h;
-    document.getElementById('cd-mins').textContent = m < 10 ? '0' + m : m;
-    document.getElementById('cd-secs').textContent = s < 10 ? '0' + s : s;
-  }
-
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
-
-  /* ═══ SIDE PICK ═══ */
   function pickSide(s) {
-    chosenSide = s;
     document.getElementById('side-val').value = s;
     var bc = document.getElementById('bride-card');
     var gc = document.getElementById('groom-card');
@@ -551,24 +786,12 @@
     gc.setAttribute('aria-pressed', s === 'groom');
   }
 
-  /* ═══ KEYBOARD NAVIGATION ═══ */
-  var envWrap = document.getElementById('env-wrap');
-  envWrap.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openEnvelope(); }
-  });
-  envWrap.addEventListener('click', openEnvelope);
-
-  document.querySelectorAll('.cc').forEach(function (el) {
-    el.addEventListener('keydown', function (e) {
+  /* Keyboard nav */
+  document.querySelectorAll('.cc,.side-card').forEach(function(el) {
+    el.addEventListener('keydown', function(e) {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
     });
   });
-
-  document.querySelectorAll('.side-card').forEach(function (el) {
-    el.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
-    });
-  });
-</script>
+  </script>
 </body>
 </html>
