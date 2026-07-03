@@ -16,15 +16,7 @@
   <!-- ═══════════════ VIDEO INTRO SCENE ═══════════════ -->
   <div id="video-scene" role="dialog" aria-label="Wedding invitation opening video">
   
-    <!--
-      ╔══════════════════════════════════════════════════════╗
-      ║  REPLACE THE src BELOW WITH YOUR ACTUAL VIDEO FILE  ║
-      ║  e.g. src="envelope-video.mp4"                       ║
-      ║  Your video: 1080×1920 (9:16 portrait), 60fps        ║
-      ║  This shape fills the screen perfectly on mobile —   ║
-      ║  no cropping or stretching needed.                   ║
-      ╚══════════════════════════════════════════════════════╝
-    -->
+
     <!-- Blurred backdrop copy — only visible on wide desktop screens,
         fills the space around the portrait video card so there's no
         empty black void on either side -->
@@ -65,11 +57,7 @@
   
 
   <!-- ═══════════════ BACKGROUND MUSIC ═══════════════ -->
-  <!--
-    ╔══════════════════════════════════════════════════════╗
-    ║  Spotify embed — track ID: 78tuBHHvRxWlorEc4Cc5gi   ║
-    ╚══════════════════════════════════════════════════════╝
-  -->
+
   <!-- Spotify player widget — slides up bottom-right after video dismissed -->
   <div id="spotify-widget" style="
     position:fixed;bottom:24px;right:24px;z-index:500;
@@ -135,9 +123,9 @@
         <div class="hero-badge">Celebrating Love</div>
 
         <div class="hero-names">
-          Ayanda
+          Ayanda Gumede
           <span class="hero-amp">&amp;</span>
-          Ngoako
+          Ngoako Moremi
         </div>
 
         <p class="hero-tagline">Two celebrations. One love story.</p>
@@ -213,7 +201,7 @@
       <div class="page-inner">
         <span class="pill pill-sage">27 November · Howick, KZN</span>
         <h1 class="ceremony-title">Umembeso</h1>
-        <p class="ceremony-desc">A beautiful Zulu tradition where families unite with gifts and blessings from the ancestors. Come ready for colour, song, dancing, and pure joy that fills your soul!</p>
+        <p class="ceremony-desc">A beautiful Zulu and Sepedi tradition where families unite with gifts and blessings from the ancestors. Come ready for colour, song, dancing, and pure joy that fills your soul!</p>
 
         <div class="detail-row">
           <div class="dblock">
@@ -241,7 +229,7 @@
           </div>
         </div>
 
-        <div class="quote-banner">No jeans. No suits. Come in your cultural best, make the ancestors proud!</div>
+        <div class="quote-banner">Come in your cultural best, make the ancestors proud!</div>
 
         <div class="nav-row">
           <button class="nav-btn nav-dark" onclick="scrollToEl('wedding')">The Wedding →</button>
@@ -412,15 +400,7 @@
     var continueEl = document.getElementById('video-continue');
     var videoDone  = false;
 
-  /* ═══════════════════════════════════════════════
-    VIDEO SIZING (done in JS, in raw pixels)
-    Some browsers/webviews don't fully support the CSS
-    aspect-ratio + min()/clamp() combo used for the
-    desktop "portrait card" look, which was leaving the
-    video as a small, off-center box. Computing the exact
-    width/height/position in JS sidesteps that entirely —
-    this works the same in every browser.
-  ═══════════════════════════════════════════════ */
+
   function sizeIntroVideo() {
     var vw = window.innerWidth;
     var vh = window.innerHeight;
