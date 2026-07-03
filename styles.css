@@ -422,6 +422,8 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  filter: blur(2px);
+  opacity: 0.6;
   transform: scale(1.04);
   animation: subtleShift 14s ease-in-out infinite alternate;
 }
