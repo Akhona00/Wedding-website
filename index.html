@@ -12,10 +12,10 @@
 
   <!-- sparkle canvas -->
   <canvas id="sparkle-canvas"></canvas>
-  
+
   <!-- ═══════════════ VIDEO INTRO SCENE ═══════════════ -->
   <div id="video-scene" role="dialog" aria-label="Wedding invitation opening video">
-  
+
 
     <!-- Blurred backdrop copy — only visible on wide desktop screens,
         fills the space around the portrait video card so there's no
@@ -23,11 +23,11 @@
     <video id="intro-video-bg" playsinline autoplay muted loop aria-hidden="true" tabindex="-1">
       <source src="Untitled_design.mp4" type="video/mp4">
     </video>
-  
-    <video id="intro-video" playsinline preload="auto" unmuted disablePictureInPicture>
+
+    <video id="intro-video" playsinline preload="auto" disablePictureInPicture>
       <source src="Untitled_design.mp4" type="video/mp4">
     </video>
-  
+
     <!-- Tap-to-play overlay (shown until user taps) -->
     <div id="video-overlay" onclick="playIntroVideo()">
       <div class="video-eyebrow-wrap">
@@ -44,73 +44,24 @@
       </div>
       <div class="video-hint-text">Tap to play</div>
     </div>
-  
+
     <!-- Continue button (shown after video ends) -->
     <div id="video-continue">
       <button class="cont-btn" onclick="dismissVideo()">View Invitation ↓</button>
     </div>
-  
-    <!-- Skip button (always available once overlay is gone) -->
-    <button id="skip-btn" onclick="dismissVideo()">Skip ×</button>
-  
-  </div>
-  
+
 
   <!-- ═══════════════ BACKGROUND MUSIC ═══════════════ -->
+  <!--
+    ╔══════════════════════════════════════════════════════╗
+    ║  REPLACE 'wedding-song.mp3' BELOW WITH YOUR ACTUAL    ║
+    ║  SONG FILE — put it in the same folder as index.html. ║
+    ╚══════════════════════════════════════════════════════╝
+  -->
+  <audio id="bg-audio" preload="auto" loop>
+    <source src="Nawe_Thuli_Ubizwa_i-Pikoko_-_MR_NDOU_Extended.mp3" type="audio/mpeg">
+  </audio>
 
-  <!-- Spotify player widget — slides up bottom-right after video dismissed -->
-  <div id="spotify-widget" style="
-    position:fixed;bottom:24px;right:24px;z-index:500;
-    width:min(320px,calc(100vw - 48px));
-    display:none;flex-direction:column;
-    border-radius:16px;overflow:hidden;
-    box-shadow:0 16px 48px rgba(0,0,0,0.65),0 0 0 1px rgba(212,175,55,0.22);
-    transform:translateY(20px);opacity:0;
-    transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1),opacity 0.4s ease;">
-
-    <!-- title bar -->
-    <div style="background:rgba(8,8,8,0.97);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(212,175,55,0.15);">
-      <div style="display:flex;align-items:center;gap:8px;">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-        <span style="font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.16em;color:rgba(212,175,55,0.75);text-transform:uppercase;">Now Playing</span>
-      </div>
-      <button onclick="closeSpotify()" aria-label="Minimise player" style="background:none;border:none;color:rgba(255,255,255,0.35);font-size:20px;line-height:1;cursor:pointer;padding:0 2px;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.35)'">×</button>
-    </div>
-
-    <!-- Spotify embed -->
-    <iframe
-      id="spotify-player"
-      src="https://open.spotify.com/embed/track/78tuBHHvRxWlorEc4Cc5gi?utm_source=generator&si=a22f73d3a53e4bb6"
-      data-src=""
-      width="100%" height="152"
-      frameborder="0" allowfullscreen=""
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-      loading="lazy"
-      style="display:block;border:none;background:#000;">
-    </iframe>
-  </div>
-
-  <!-- Re-open pill (shown after widget is closed) -->
-  <button id="spotify-reopen" onclick="openSpotify()" aria-label="Open music player" style="
-    position:fixed;bottom:24px;right:24px;z-index:500;
-    display:none;align-items:center;gap:10px;
-    background:rgba(8,8,8,0.93);
-    border:1px solid rgba(212,175,55,0.28);
-    border-radius:50px;padding:9px 16px 9px 11px;
-    backdrop-filter:blur(20px);
-    box-shadow:0 8px 32px rgba(0,0,0,0.5),inset 0 1px 0 rgba(212,175,55,0.12);
-    cursor:pointer;transition:opacity 0.3s,transform 0.2s;">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-    <div style="display:flex;flex-direction:column;gap:2px;">
-      <span style="font-family:'Jost',sans-serif;font-size:11px;color:rgba(242,236,216,0.9);letter-spacing:0.04em;white-space:nowrap;">Masithokoze · Mafikizolo</span>
-      <div style="display:flex;align-items:flex-end;gap:2px;height:9px;">
-        <span style="display:block;width:2px;height:4px;background:rgba(212,175,55,0.7);border-radius:1px;animation:eq-bar 0.75s ease-in-out infinite alternate;"></span>
-        <span style="display:block;width:2px;height:8px;background:rgba(212,175,55,0.7);border-radius:1px;animation:eq-bar 0.75s ease-in-out infinite alternate;animation-delay:0.15s"></span>
-        <span style="display:block;width:2px;height:5px;background:rgba(212,175,55,0.7);border-radius:1px;animation:eq-bar 0.75s ease-in-out infinite alternate;animation-delay:0.3s"></span>
-        <span style="display:block;width:2px;height:9px;background:rgba(212,175,55,0.7);border-radius:1px;animation:eq-bar 0.75s ease-in-out infinite alternate;animation-delay:0.1s"></span>
-      </div>
-    </div>
-  </button>
 
   <!-- ═══════════════ SCROLL CONTENT ═══════════════ -->
   <div id="scroll-content">
@@ -120,38 +71,51 @@
       <div class="hero-bg"></div>
 
       <div class="hero-card">
-        <div class="hero-badge">Celebrating Love</div>
+        <!-- ╔══════════════════════════════════════════════════╗
+             ║  Two photos crossfade behind the card content.    ║
+             ║  Replace the filenames below with your two shots. ║
+             ╚══════════════════════════════════════════════════╝ -->
+        <div class="hero-card-photo hero-card-photo-1"></div>
+        <div class="hero-card-photo hero-card-photo-2"></div>
 
-        <div class="hero-names">
-          Ayanda Gumede
-          <span class="hero-amp">&amp;</span>
-          Ngoako Moremi
-        </div>
+        <!-- Wrapping the real content lifts it above the photo layers +
+             scrim per the .hero-card-content rule in styles.css. Without
+             this wrapper, the buttons below render underneath the photo
+             layers and can't be tapped. -->
+        <div class="hero-card-content">
+          <div class="hero-badge">Celebrating Love</div>
 
-        <p class="hero-tagline">Two celebrations. One love story.</p>
-
-        <div class="hero-dates">
-          <div class="date-item">
-            <div class="date-num">27</div>
-            <div class="date-label">November · Umembeso</div>
+          <div class="hero-names">
+            Ayanda Gumede
+            <span class="hero-amp">&amp;</span>
+            Ngoako Moremi
           </div>
-          <div class="date-sep"></div>
-          <div class="date-item">
-            <div class="date-num">28</div>
-            <div class="date-label">November · White Wedding</div>
+
+          <p class="hero-tagline">Two celebrations. One love story.</p>
+
+          <div class="hero-dates">
+            <div class="date-item">
+              <div class="date-num">27</div>
+              <div class="date-label">November · Umembeso</div>
+            </div>
+            <div class="date-sep"></div>
+            <div class="date-item">
+              <div class="date-num">28</div>
+              <div class="date-label">November · White Wedding</div>
+            </div>
           </div>
-        </div>
 
-        <div class="countdown" id="countdown" aria-label="Countdown to wedding">
-          <div class="cd-box"><span class="cd-num" id="cd-days">—</span><span class="cd-label">Days</span></div>
-          <div class="cd-box"><span class="cd-num" id="cd-hours">—</span><span class="cd-label">Hours</span></div>
-          <div class="cd-box"><span class="cd-num" id="cd-mins">—</span><span class="cd-label">Mins</span></div>
-          <div class="cd-box"><span class="cd-num" id="cd-secs">—</span><span class="cd-label">Secs</span></div>
-        </div>
+          <div class="countdown" id="countdown" aria-label="Countdown to wedding">
+            <div class="cd-box"><span class="cd-num" id="cd-days">—</span><span class="cd-label">Days</span></div>
+            <div class="cd-box"><span class="cd-num" id="cd-hours">—</span><span class="cd-label">Hours</span></div>
+            <div class="cd-box"><span class="cd-num" id="cd-mins">—</span><span class="cd-label">Mins</span></div>
+            <div class="cd-box"><span class="cd-num" id="cd-secs">—</span><span class="cd-label">Secs</span></div>
+          </div>
 
-        <div class="hero-ctas">
-          <button class="btn btn-primary" onclick="scrollToEl('rsvp')">RSVP Now</button>
-          <button class="btn btn-ghost" onclick="scrollToEl('celebrations')">View Details</button>
+          <div class="hero-ctas">
+            <button class="btn btn-primary" onclick="scrollToEl('rsvp')" type="button">RSVP Now</button>
+            <button class="btn btn-ghost" onclick="scrollToEl('celebrations')" type="button">View Details</button>
+          </div>
         </div>
       </div>
 
@@ -232,8 +196,8 @@
         <div class="quote-banner">Come in your cultural best, make the ancestors proud!</div>
 
         <div class="nav-row">
-          <button class="nav-btn nav-dark" onclick="scrollToEl('wedding')">The Wedding →</button>
-          <button class="nav-btn nav-terra" onclick="scrollToEl('rsvp')">RSVP Now</button>
+          <button class="nav-btn nav-dark" onclick="scrollToEl('wedding')" type="button">The Wedding →</button>
+          <button class="nav-btn nav-terra" onclick="scrollToEl('rsvp')" type="button">RSVP Now</button>
         </div>
       </div>
     </div>
@@ -276,8 +240,8 @@
         <div class="quote-banner">Come for the love. Stay for the dancing. Leave with memories that last forever.</div>
 
         <div class="nav-row">
-          <button class="nav-btn nav-sage" onclick="scrollToEl('umembeso')">← Umembeso</button>
-          <button class="nav-btn nav-terra" onclick="scrollToEl('rsvp')">RSVP Now</button>
+          <button class="nav-btn nav-sage" onclick="scrollToEl('umembeso')" type="button">← Umembeso</button>
+          <button class="nav-btn nav-terra" onclick="scrollToEl('rsvp')" type="button">RSVP Now</button>
         </div>
       </div>
     </div>
@@ -352,7 +316,6 @@
               </div>
             </div>
             <input type="hidden" id="side-val" value="">
-            <div class="capacity-notice">Limited to 50 guests per side</div>
             <div class="side-full-msg" id="side-full-msg"></div>
           </div>
 
@@ -374,7 +337,7 @@
         <div class="rsvp-success" id="rsvp-success" role="status">
           <span class="success-emoji"></span>
           <div class="success-headline">You're on the list!</div>
-          <p class="success-msg">We've received your RSVP and cannot WAIT to celebrate with you. Get your outfits ready and prepare to have the time of your life!</p>
+          <p class="success-msg">We've received your RSVP and cannot WAIT to celebrate with you. Please do contact us if you want assistance with finding an accomodation!</p>
           <div class="success-sig">Ayanda &amp; Ngoako</div>
         </div>
       </div>
@@ -384,6 +347,7 @@
     <footer class="site-footer">
       <div class="footer-names">Ayanda &amp; Ngoako</div>
       <div class="footer-date">27 &amp; 28 November 2025 · KwaZulu-Natal, South Africa</div>
+      <div class="footer-credit">All rights reserved &copy; @asom</div>
     </footer>
 
   </div><!-- end scroll-content -->
@@ -399,6 +363,16 @@
     var overlay    = document.getElementById('video-overlay');
     var continueEl = document.getElementById('video-continue');
     var videoDone  = false;
+
+    /* Hard fail-safe: if the intro video hasn't finished (or errored, or
+       simply never loaded) within 12 seconds of page load, unlock the
+       invitation anyway. No guest should ever get stuck on this screen. */
+    var introFailSafe = setTimeout(function() {
+      if (!videoDone) skipToContent();
+    }, 12000);
+
+
+
 
 
   function sizeIntroVideo() {
@@ -456,8 +430,9 @@
     overlay.classList.add('hidden');
     sizeIntroVideo();
     videoEl.play().catch(function() {
-      /* Autoplay blocked — show continue immediately */
-      overlay.classList.remove('hidden');
+      /* Couldn't play (blocked, bad format, etc.) — don't trap the guest
+         behind a dead overlay, just skip straight into the invitation. */
+      skipToContent();
     });
     /* Make sure the blurred backdrop copy is also playing (desktop view) */
     if (videoBgEl) { videoBgEl.play().catch(function(){}); }
@@ -465,12 +440,15 @@
 
   videoEl.addEventListener('ended', function() {
     videoDone = true;
+    clearTimeout(introFailSafe);
     continueEl.classList.add('show');
   });
 
   /* Also show "continue" if user has watched most of the video */
   videoEl.addEventListener('timeupdate', function() {
     if (videoEl.duration && videoEl.currentTime >= videoEl.duration - 1) {
+      videoDone = true;
+      clearTimeout(introFailSafe);
       continueEl.classList.add('show');
     }
   });
@@ -483,6 +461,7 @@
   });
 
   function dismissVideo() {
+    clearTimeout(introFailSafe);
     var scene = document.getElementById('video-scene');
     scene.classList.add('gone');
 
@@ -501,53 +480,25 @@
     }, 900);
   }
 
+
   /* ═══════════════════════════════════════════════
-    SPOTIFY WIDGET
+    BACKGROUND MUSIC — self-hosted <audio> tag, no visible player.
+    play() is called directly on our own element in response to a
+    real click (Skip / View Invitation), so it's a genuine first-party
+    call — no third-party iframe and no on-screen icon/frame.
   ═══════════════════════════════════════════════ */
-  var SPOTIFY_EMBED_SRC = 'https://open.spotify.com/embed/track/78tuBHHvRxWlorEc4Cc5gi?utm_source=generator&si=a22f73d3a53e4bb6';
-  var spotifyLoaded = false;
+  var bgAudio = document.getElementById('bg-audio');
 
   function startMusic() {
-    /* Show the widget and load the iframe */
-    var widget = document.getElementById('spotify-widget');
-    var frame  = document.getElementById('spotify-player');
-    if (!spotifyLoaded && frame) {
-      frame.src = SPOTIFY_EMBED_SRC;
-      spotifyLoaded = true;
-    }
-    widget.style.display = 'flex';
-    /* Animate in */
-    setTimeout(function() {
-      widget.style.opacity = '1';
-      widget.style.transform = 'translateY(0)';
-    }, 50);
+    bgAudio.play().catch(function() {
+      /* Autoplay blocked by the browser — since there's no visible
+         player for the guest to tap, it'll simply start on their
+         next interaction with the page instead. */
+    });
   }
 
-  function closeSpotify() {
-    var widget  = document.getElementById('spotify-widget');
-    var reopen  = document.getElementById('spotify-reopen');
-    /* Slide out */
-    widget.style.opacity = '0';
-    widget.style.transform = 'translateY(20px)';
-    setTimeout(function() {
-      widget.style.display = 'none';
-      reopen.style.display = 'flex';
-    }, 400);
-  }
-
-  function openSpotify() {
-    var widget  = document.getElementById('spotify-widget');
-    var reopen  = document.getElementById('spotify-reopen');
-    reopen.style.display = 'none';
-    widget.style.display = 'flex';
-    setTimeout(function() {
-      widget.style.opacity = '1';
-      widget.style.transform = 'translateY(0)';
-    }, 50);
-  }
-
-  /* Keep for compatibility — no longer needed but won't break anything */
-  function toggleMusic() { closeSpotify(); }
+  /* Kept as harmless no-ops in case anything else still references them */
+  function toggleMusic() {}
   function updateMusicUI() {}
 
   /* ═══════════════════════════════════════════════
