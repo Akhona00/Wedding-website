@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ayanda &amp; Ngoako Wedding Invitation</title>
+<title>Ayanda &amp; Ngoako — Wedding Invitation</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 
@@ -12,10 +12,10 @@
 
   <!-- sparkle canvas -->
   <canvas id="sparkle-canvas"></canvas>
-
+  
   <!-- ═══════════════ VIDEO INTRO SCENE ═══════════════ -->
   <div id="video-scene" role="dialog" aria-label="Wedding invitation opening video">
-
+  
 
     <!-- Blurred backdrop copy — only visible on wide desktop screens,
         fills the space around the portrait video card so there's no
@@ -23,11 +23,11 @@
     <video id="intro-video-bg" playsinline autoplay muted loop aria-hidden="true" tabindex="-1">
       <source src="Untitled_design.mp4" type="video/mp4">
     </video>
-
-    <video id="intro-video" playsinline preload="auto" disablePictureInPicture>
+  
+    <video id="intro-video" playsinline preload="auto" unmuted disablePictureInPicture>
       <source src="Untitled_design.mp4" type="video/mp4">
     </video>
-
+  
     <!-- Tap-to-play overlay (shown until user taps) -->
     <div id="video-overlay" onclick="playIntroVideo()">
       <div class="video-eyebrow-wrap">
@@ -44,13 +44,17 @@
       </div>
       <div class="video-hint-text">Tap to play</div>
     </div>
-
+  
     <!-- Continue button (shown after video ends) -->
     <div id="video-continue">
       <button class="cont-btn" onclick="dismissVideo()">View Invitation ↓</button>
     </div>
+  
+  
+  </div>
+  
 
-
+  
   <!-- ═══════════════ BACKGROUND MUSIC ═══════════════ -->
   <!--
     ╔══════════════════════════════════════════════════════╗
@@ -61,8 +65,8 @@
   <audio id="bg-audio" preload="auto" loop>
     <source src="Nawe_Thuli_Ubizwa_i-Pikoko_-_MR_NDOU_Extended.mp3" type="audio/mpeg">
   </audio>
-
-
+ 
+ 
   <!-- ═══════════════ SCROLL CONTENT ═══════════════ -->
   <div id="scroll-content">
 
@@ -78,10 +82,11 @@
         <div class="hero-card-photo hero-card-photo-1"></div>
         <div class="hero-card-photo hero-card-photo-2"></div>
 
-        <!-- Wrapping the real content lifts it above the photo layers +
-             scrim per the .hero-card-content rule in styles.css. Without
-             this wrapper, the buttons below render underneath the photo
-             layers and can't be tapped. -->
+        <!-- FIX: all real content now lives inside .hero-card-content so it
+             sits ABOVE the photo layers and the ::before scrim (both z-index
+             0/1). Previously these elements were siblings of the photo divs
+             with no stacking context, so the scrim intercepted every click
+             on the "RSVP Now" / "View Details" buttons. -->
         <div class="hero-card-content">
           <div class="hero-badge">Celebrating Love</div>
 
@@ -364,16 +369,6 @@
     var continueEl = document.getElementById('video-continue');
     var videoDone  = false;
 
-    /* Hard fail-safe: if the intro video hasn't finished (or errored, or
-       simply never loaded) within 12 seconds of page load, unlock the
-       invitation anyway. No guest should ever get stuck on this screen. */
-    var introFailSafe = setTimeout(function() {
-      if (!videoDone) skipToContent();
-    }, 12000);
-
-
-
-
 
   function sizeIntroVideo() {
     var vw = window.innerWidth;
@@ -430,9 +425,8 @@
     overlay.classList.add('hidden');
     sizeIntroVideo();
     videoEl.play().catch(function() {
-      /* Couldn't play (blocked, bad format, etc.) — don't trap the guest
-         behind a dead overlay, just skip straight into the invitation. */
-      skipToContent();
+      /* Autoplay blocked — show continue immediately */
+      overlay.classList.remove('hidden');
     });
     /* Make sure the blurred backdrop copy is also playing (desktop view) */
     if (videoBgEl) { videoBgEl.play().catch(function(){}); }
@@ -440,15 +434,12 @@
 
   videoEl.addEventListener('ended', function() {
     videoDone = true;
-    clearTimeout(introFailSafe);
     continueEl.classList.add('show');
   });
 
   /* Also show "continue" if user has watched most of the video */
   videoEl.addEventListener('timeupdate', function() {
     if (videoEl.duration && videoEl.currentTime >= videoEl.duration - 1) {
-      videoDone = true;
-      clearTimeout(introFailSafe);
       continueEl.classList.add('show');
     }
   });
@@ -461,7 +452,6 @@
   });
 
   function dismissVideo() {
-    clearTimeout(introFailSafe);
     var scene = document.getElementById('video-scene');
     scene.classList.add('gone');
 
@@ -480,7 +470,7 @@
     }, 900);
   }
 
-
+  
   /* ═══════════════════════════════════════════════
     BACKGROUND MUSIC — self-hosted <audio> tag, no visible player.
     play() is called directly on our own element in response to a
@@ -488,7 +478,7 @@
     call — no third-party iframe and no on-screen icon/frame.
   ═══════════════════════════════════════════════ */
   var bgAudio = document.getElementById('bg-audio');
-
+ 
   function startMusic() {
     bgAudio.play().catch(function() {
       /* Autoplay blocked by the browser — since there's no visible
@@ -496,7 +486,7 @@
          next interaction with the page instead. */
     });
   }
-
+ 
   /* Kept as harmless no-ops in case anything else still references them */
   function toggleMusic() {}
   function updateMusicUI() {}
