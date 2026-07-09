@@ -4,21 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ayanda &amp; Ngoako </title>
-  <!-- Basic meta -->
-<meta name="Wedding Invitation" content="You are invited to Ayanda &amp; Ngoako's wedding celebration! Join us for two beautiful days of love, culture, and elegance. RSVP now to secure your spot.">
+<!-- Basic meta -->
+<meta name="description" content="You are invited to Ayanda & Ngoako's wedding celebration! Join us for two beautiful days of love, culture, and elegance. RSVP now to secure your spot.">
 
-  <!-- Open Graph / Facebook, WhatsApp, Discord, LinkedIn -->
+<!-- Open Graph / Facebook, WhatsApp, Discord, LinkedIn -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://asomonce.co.za">
-<meta property="og:title" content="Ayanda &amp; Ngoako's Wedding Celebration">
-<meta property="og:description" content="You are invited to Ayanda &amp; Ngoako's wedding celebration! Join us for two beautiful days of love, culture, and elegance. RSVP now to secure your spot.">
-<meta property="og:image" content="https://asomonce.co.za/2FBS-6098-og.jpg">
+<meta property="og:title" content="Ayanda & Ngoako's Wedding Celebration">
+<meta property="og:description" content="You are invited to Ayanda & Ngoako's wedding celebration! Join us for two beautiful days of love, culture, and elegance. RSVP now to secure your spot.">
+<meta property="og:image" content="https://asomonce.co.za/FBS-6069.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/jpeg">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-
 </head>
 <body>
 
@@ -357,7 +356,7 @@
             </select>
           </div>
 
-          <div class="form-field">
+          <div class="form-field" id="side-field" style="display:none;">
             <label class="form-label">I'll Be Seated On The…</label>
             <div class="side-grid">
               <div class="side-card" id="bride-card" onclick="pickSide('bride')" role="button" tabindex="0" aria-pressed="false">
@@ -397,14 +396,24 @@
           <button class="submit-btn" id="submit-btn" onclick="submitRSVP()" type="button">Confirm My Attendance</button>
         </div>
 
-        <!-- success state -->
+                <!-- success state -->
         <div class="rsvp-success" id="rsvp-success" role="status">
           <span class="success-emoji"></span>
-          <div class="success-headline">You're on the list!</div>
-          <p class="success-msg">We've received your RSVP and cannot WAIT to celebrate with you. Please do contact us if you want assistance with finding an accomodation!</p>
+
+          <!-- Shown when the guest IS attending -->
+          <div id="success-attending">
+            <div class="success-headline">You're on the list!</div>
+            <p class="success-msg">We've received your RSVP and cannot WAIT to celebrate with you. See you soon!</p>
+          </div>
+
+          <!-- Shown when the guest said they can't make it -->
+          <div id="success-not-attending" style="display:none;">
+            <div class="success-headline">You'll Be Missed</div>
+            <p class="success-msg">Thank you for letting us know. We're sad you can't be there, but we understand, you'll be in our hearts on the day. Sending you all our love!</p>
+          </div>
+
           <div class="success-sig">Ayanda &amp; Ngoako</div>
         </div>
-      </div>
     </section>
 
     <!-- FOOTER -->
@@ -614,6 +623,31 @@
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
     });
   });
+
+  /* ═══════════════════════════════════════════════
+    SHOW SIDE-PICKER ONLY WHEN ATTENDING BOTH EVENTS
+  ═══════════════════════════════════════════════ */
+  var eventsSelect = document.getElementById('events');
+  var sideField     = document.getElementById('side-field');
+
+
+  function toggleSideField() {
+    if (eventsSelect.value === 'both') {
+      sideField.style.display = '';
+    } else {
+      sideField.style.display = 'none';
+      /* Reset any previously chosen side so it doesn't get submitted
+         silently if the guest changes their mind after picking a side */
+      document.getElementById('side-val').value = '';
+      document.getElementById('bride-card').classList.remove('chosen');
+      document.getElementById('groom-card').classList.remove('chosen');
+      document.getElementById('bride-card').setAttribute('aria-pressed', 'false');
+      document.getElementById('groom-card').setAttribute('aria-pressed', 'false');
+    }
+  }
+
+  eventsSelect.addEventListener('change', toggleSideField);
+  toggleSideField(); // run once on load in case of pre-filled values
   </script>
 </body>
 </html>

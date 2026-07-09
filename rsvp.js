@@ -17,29 +17,16 @@ var NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_4biQ90_Ml6AFItiub4y0Zg_bQo0DFDD";
 var isSubmitting = false;
  
+
 /* Max guests allowed per side */
 var SIDE_LIMIT = 50;
  
 var isSubmitting = false;
  
-/* ── Contact details shown when a side is full ── */
-var CONTACT = {
-  bride: {
-    name:  'Ayanda',
-    phone: '+27 000 000 000', /* ← replace with Ayanda's number */
-    email: 'ayanda@email.com' /* ← replace with Ayanda's email  */
-  },
-  groom: {
-    name:  'Ngoako',
-    phone: '+27 000 000 000', /* ← replace with Ngoako's number */
-    email: 'ngoako@email.com' /* ← replace with Ngoako's email  */
-  }
-};
- 
-/* ── Count existing RSVPs for a given side ── */
-function countSide(side) {
+/* ── Count existing RSVPs (all rows, regardless of attendance) ── */
+function countRSVPs() {
   return fetch(
-    SUPABASE_URL + '/rest/v1/rsvps?select=id&side=eq.' + side,
+    SUPABASE_URL + '/rest/v1/rsvps?select=id',
     {
       headers: {
         'apikey':        SUPABASE_KEY,
@@ -50,6 +37,27 @@ function countSide(side) {
     }
   ).then(function(res) {
     /* Supabase returns total count in Content-Range: 0-0/TOTAL */
+    var range = res.headers.get('Content-Range') || '';
+    var match = range.match(/\/(\d+)$/);
+    return match ? parseInt(match[1], 10) : 0;
+  });
+}
+ 
+/* ── Count existing RSVPs for a given side ──
+   Excludes guests who said they can't make it (events = 'none'),
+   so non-attendees never eat into the 50-person capacity. */
+function countSide(side) {
+  return fetch(
+    SUPABASE_URL + '/rest/v1/rsvps?select=id&side=eq.' + side + '&events=neq.none',
+    {
+      headers: {
+        'apikey':        SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY,
+        'Prefer':        'count=exact',
+        'Range':         '0-0'
+      }
+    }
+  ).then(function(res) {
     var range = res.headers.get('Content-Range') || '';
     var match = range.match(/\/(\d+)$/);
     return match ? parseInt(match[1], 10) : 0;
@@ -108,81 +116,174 @@ function showSideFull(side) {
     card.style.pointerEvents = 'none';
   }
 }
+
+/* ── Show the correct success message depending on attendance ── */
+function showSuccess(notAttending) {
+  document.getElementById('rsvp-form').classList.add('hidden');
+  document.getElementById('rsvp-success').classList.add('show');
+ 
+  var attendingMsg    = document.getElementById('success-attending');
+  var notAttendingMsg = document.getElementById('success-not-attending');
+ 
+  if (attendingMsg)    attendingMsg.style.display    = notAttending ? 'none' : '';
+  if (notAttendingMsg) notAttendingMsg.style.display = notAttending ? '' : 'none';
+}
  
 /* ── Validate & submit ── */
 function submitRSVP() {
   if (isSubmitting) return;
- 
+
   clearFieldErrors();
- 
-  var full_name = document.getElementById('fname').value.trim();
-  var phone     = document.getElementById('phone').value.trim();
-  var email     = document.getElementById('email').value.trim();
-  var guests    = document.getElementById('guests').value;
-  var events    = document.getElementById('events').value;
-  var side      = document.getElementById('side-val').value;
-  var diet      = document.getElementById('diet').value.trim();
-  var message   = document.getElementById('msg').value.trim();
- 
-  /* Required field validation */
+
+  var full_name = document.getElementById("fname").value.trim();
+  var phone = document.getElementById("phone").value.trim();
+  var email = document.getElementById("email").value.trim();
+  var guests = document.getElementById("guests").value;
+  var events = document.getElementById("events").value;
+  var side = document.getElementById("side-val").value;
+  var diet = document.getElementById("diet").value.trim();
+  var message = document.getElementById("msg").value.trim();
+
+  var notAttending = events === "none";
+  var attendingBoth = events === "both";
+  var attendingOne = events === "wedding";
+
+  /* ── Required field validation ──
+     - Name, phone, and events are always required.
+     - Guest count is only required if they're actually attending.
+     - Side is only required if attending BOTH ceremonies. */
   var hasError = false;
-  if (!full_name) { showFieldError('fname',  'Please enter your full name.');     hasError = true; }
-  if (!phone)     { showFieldError('phone',  'Please enter your phone number.');  hasError = true; }
-  if (!email)     { showFieldError('email',  'Please enter your email address.'); hasError = true; }
-  if (!guests)    { showFieldError('guests', 'Please select number of guests.');  hasError = true; }
-  if (!events)    { showFieldError('events', 'Please select which ceremonies.');  hasError = true; }
-  if (!side)      { showFieldError('side-val', 'Please choose Bride\'s side or Groom\'s side.'); hasError = true; }
+  if (!full_name) {
+    showFieldError("fname", "Please enter your full name.");
+    hasError = true;
+  }
+  if (!phone) {
+    showFieldError("phone", "Please enter your phone number.");
+    hasError = true;
+  }
+  if (!events) {
+    showFieldError("events", "Please select which ceremonies.");
+    hasError = true;
+  }
+
+  if (!notAttending && !guests) {
+    showFieldError("guests", "Please select number of guests.");
+    hasError = true;
+  }
+
+  if (attendingBoth && !side) {
+    showFieldError("side-val", "Please choose Bride's side or Groom's side.");
+    hasError = true;
+  }
+
+  if (attendingOne && !side) {
+    showFieldError("side-val", "Please choose Bride's side or Groom's side.");
+    hasError = true;
+  }
+
   if (hasError) return;
- 
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    showFieldError('email', 'Please enter a valid email address.');
+
+  /* Email is optional — only validate format if something was entered */
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showFieldError("email", "Please enter a valid email address.");
     return;
   }
- 
-  /* Lock UI while we check capacity */
+
+  /* Lock UI while we process */
   isSubmitting = true;
-  var btn = document.getElementById('submit-btn');
-  btn.disabled    = true;
-  btn.textContent = 'Checking availability…';
- 
-  /* ── Check side capacity before saving ── */
+  var btn = document.getElementById("submit-btn");
+  btn.disabled = true;
+  btn.textContent = attendingBoth ? "Checking availability…" : "Submitting…";
+
+  var payload = {
+    full_name: full_name,
+    phone: phone,
+    email: email || null,
+    guests: notAttending ? null : guests,
+    events: events,
+    side: attendingBoth ? side : null,
+    diet: diet || null,
+    message: message || null,
+  };
+
+  /* Guests not attending both ceremonies (i.e. not selecting a side)
+     skip the capacity check entirely and save straight away —
+     this covers "can't make it", "Umembeso only", and "Wedding only". */
+
+  /* if not attending send a wishing well message */
+  if (notAttending) {
+    saveRSVP(payload)
+      .then(function () {
+        document.getElementById("rsvp-form").classList.add("hidden");
+        document.getElementById("rsvp-success").classList.add("show");
+
+        /* Show the "You'll Be Missed" message, hide the attending one */
+        document.getElementById("success-attending").style.display = "none";
+        document.getElementById("success-not-attending").style.display = "";
+      })
+      .catch(function (err) {
+        console.error("RSVP error:", err);
+        isSubmitting = false;
+        btn.disabled = false;
+        btn.textContent = "Confirm My Attendance";
+        showBannerError(
+          "Oops! Something went wrong — please try again.\n\nError: " +
+            err.message,
+        );
+      });
+    return;
+  }
+
+  if (!attendingBoth) {
+    saveRSVP(payload)
+      .then(function () {
+        document.getElementById("rsvp-form").classList.add("hidden");
+        document.getElementById("rsvp-success").classList.add("show");
+      })
+      .catch(function (err) {
+        console.error("RSVP error:", err);
+        isSubmitting = false;
+        btn.disabled = false;
+        btn.textContent = "Confirm My Attendance";
+        showBannerError(
+          "Oops! Something went wrong — please try again.\n\nError: " +
+            err.message,
+        );
+      });
+    return;
+  }
+
+  /* Attending both ceremonies: check side capacity before saving */
   countSide(side)
-    .then(function(count) {
+    .then(function (count) {
       if (count >= SIDE_LIMIT) {
         /* Side is full — unlock form and show message */
-        isSubmitting    = false;
-        btn.disabled    = false;
-        btn.textContent = 'Confirm My Attendance';
+        isSubmitting = false;
+        btn.disabled = false;
+        btn.textContent = "Confirm My Attendance";
         showSideFull(side);
         return;
       }
- 
+
       /* Capacity available — proceed with save */
-      btn.textContent = 'Submitting…';
- 
-      var payload = {
-        full_name : full_name,
-        phone     : phone,
-        email     : email,
-        guests    : guests,
-        events    : events,
-        side      : side,
-        diet      : diet    || null,
-        message   : message || null
-      };
- 
-      return saveRSVP(payload).then(function() {
-        document.getElementById('rsvp-form').classList.add('hidden');
-        document.getElementById('rsvp-success').classList.add('show');
+      btn.textContent = "Submitting…";
+
+      return saveRSVP(payload).then(function () {
+        document.getElementById("rsvp-form").classList.add("hidden");
+        document.getElementById("rsvp-success").classList.add("show");
+
+        document.getElementById("success-attending").style.display = "";
+        document.getElementById("success-not-attending").style.display = "none";
       });
     })
-    .catch(function(err) {
-      console.error('RSVP error:', err);
-      isSubmitting    = false;
-      btn.disabled    = false;
-      btn.textContent = 'Confirm My Attendance';
+    .catch(function (err) {
+      console.error("RSVP error:", err);
+      isSubmitting = false;
+      btn.disabled = false;
+      btn.textContent = "Confirm My Attendance";
       showBannerError(
-        'Oops! Something went wrong — please try again.\n\nError: ' + err.message
+        "Oops! Something went wrong — please try again.\n\nError: " +
+          err.message,
       );
     });
 }
@@ -256,3 +357,42 @@ function showBannerError(msg) {
   form.insertBefore(banner, form.firstChild);
   banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
+ 
+/* ═══════════════════════════════════════════════
+   SHOW SIDE-PICKER ONLY WHEN ATTENDING BOTH EVENTS
+   Runs once the DOM is ready so the elements exist.
+═══════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', function() {
+  var eventsSelect = document.getElementById('events');
+  var sideField    = document.getElementById('side-field');
+  if (!eventsSelect || !sideField) return;
+ 
+  function toggleSideField() {
+    if (eventsSelect.value === 'both') {
+      sideField.style.display = '';
+    } 
+    else if (eventsSelect.value === 'wedding') {
+      sideField.style.display = '';
+    }else {
+      sideField.style.display = 'none';
+      /* Reset any previously chosen side so a stale choice never
+         gets submitted silently if the guest changes their mind */
+      var sideVal   = document.getElementById('side-val');
+      var brideCard = document.getElementById('bride-card');
+      var groomCard = document.getElementById('groom-card');
+      if (sideVal) sideVal.value = '';
+      if (brideCard) {
+        brideCard.classList.remove('chosen');
+        brideCard.setAttribute('aria-pressed', 'false');
+      }
+      if (groomCard) {
+        groomCard.classList.remove('chosen');
+        groomCard.setAttribute('aria-pressed', 'false');
+      }
+    }
+  }
+ 
+  eventsSelect.addEventListener('change', toggleSideField);
+  toggleSideField(); // run once on load in case of pre-filled values
+});
+ 
