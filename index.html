@@ -562,14 +562,16 @@
   ═══════════════════════════════════════════════ */
   function getWeddingDate() {
     var now = new Date();
-    // Get current year based on UTC to avoid edge-case timezone shifts
-    var year = now.getUTCFullYear();
 
-    // Wedding: Nov 28, 11:00 SAST = 09:00 UTC (SAST is always UTC+2, no DST)
-    var t = new Date(Date.UTC(year, 10, 28, 11 - 2, 0, 0));
+    // Determine "current year" as seen in Johannesburg (SAST = UTC+2, no DST)
+    var sastNow = new Date(now.getTime() + 2 * 3600000);
+    var year = sastNow.getUTCFullYear();
+
+    // Wedding: Nov 28, 00:00 SAST = Nov 27, 22:00 UTC
+    var t = new Date(Date.UTC(year, 10, 28, 0 - 2, 0, 0));
 
     if (now >= t) {
-      t = new Date(Date.UTC(year + 1, 10, 28, 11 - 2, 0, 0));
+      t = new Date(Date.UTC(year + 1, 10, 28, 0 - 2, 0, 0));
     }
     return t;
   }
