@@ -534,20 +534,25 @@ function countRSVPs() {
    so non-attendees never eat into the 50-person capacity. */
 function countSide(side) {
   return fetch(
-    SUPABASE_URL + '/rest/v1/rsvps?select=id&side=eq.' + side + '&events=neq.none',
+    SUPABASE_URL +
+      "/rest/v1/rsvps?select=guests&side=eq." +
+      side +
+      "&events=neq.none",
     {
       headers: {
-        'apikey':        SUPABASE_KEY,
-        'Authorization': 'Bearer ' + SUPABASE_KEY,
-        'Prefer':        'count=exact',
-        'Range':         '0-0'
-      }
-    }
-  ).then(function(res) {
-    var range = res.headers.get('Content-Range') || '';
-    var match = range.match(/\/(\d+)$/);
-    return match ? parseInt(match[1], 10) : 0;
-  });
+        apikey: SUPABASE_KEY,
+        Authorization: "Bearer " + SUPABASE_KEY,
+      },
+    },
+  )
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (rows) {
+      return rows.reduce(function (sum, r) {
+        return sum + (parseInt(r.guests, 10) || 0);
+      }, 0);
+    });
 }
  
 /* ── Save RSVP to Supabase ── */
