@@ -592,11 +592,11 @@ function showSideFull(side) {
     '<p>We\'re sorry — the ' + who + ' side has reached its maximum of ' +
     SIDE_LIMIT + ' guests.</p>' +
     '<p style="margin-top:10px">Please contact <strong style="color:#E8B84B">' +
-    contact.name + '</strong> directly to be added to the waiting list:</p>' +
+    Ayanda & Ngoako + '</strong> directly to be added to the waiting list:</p>' +
     '<div class="contact-line" style="margin-top:10px">' +
-      '📞 ' + contact.phone + '</div>' +
+      '📞 ' + Whatsapp + '</div>' +
     '<div class="contact-line">' +
-      '✉️ ' + contact.email + '</div>';
+      '✉️ ' + 'ayandagumede04@gmail.com' + '</div>';
  
   msgEl.classList.add('show');
  
@@ -773,7 +773,7 @@ function submitRSVP() {
       btn.disabled = false;
       btn.textContent = "Confirm My Attendance";
       showBannerError(
-        "Oops! Something went wrong — please try again.\n\nError: " +
+        "Oops! Something went wrong — please contact the Bride or Groom.\n\nError: " +
           err.message,
       );
     });
